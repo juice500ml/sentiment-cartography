@@ -76,4 +76,4 @@ if __name__ == "__main__":
                 "text": row["text"],
                 "label": row["label"]
             })
-    pd.DataFrame(rows).to_csv(storage / "out.csv", index=False)
+    pd.DataFrame(rows).to_csv("out.csv", index=False)
