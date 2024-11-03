@@ -26,9 +26,9 @@ if __name__ == "__main__":
     def preproc(row):
         return tokenizer(row["text"], max_length=1024, truncation=True)
 
-    ds_train_pos = ds["train"].select(range(100)).filter(lambda row: row["label"] == 4).map(preproc, num_proc=4, remove_columns=["label"])
-    ds_train_neg = ds["train"].select(range(100)).filter(lambda row: row["label"] == 0).map(preproc, num_proc=4, remove_columns=["label"])
-    ds_test = ds["test"].select(range(100)).map(preproc, num_proc=4)
+    ds_train_pos = ds["train"].filter(lambda row: row["label"] == 4).map(preproc, num_proc=4, remove_columns=["label"])
+    ds_train_neg = ds["train"].filter(lambda row: row["label"] == 0).map(preproc, num_proc=4, remove_columns=["label"])
+    ds_test = ds["test"].map(preproc, num_proc=4)
 
     tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
