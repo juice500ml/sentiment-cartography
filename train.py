@@ -28,7 +28,6 @@ if __name__ == "__main__":
 
     ds_train_pos = ds["train"].filter(lambda row: row["label"] == 4).map(preproc, num_proc=4, remove_columns=["label"])
     ds_train_neg = ds["train"].filter(lambda row: row["label"] == 0).map(preproc, num_proc=4, remove_columns=["label"])
-    ds_test = ds["test"].map(preproc, num_proc=4)
 
     tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
@@ -61,19 +60,3 @@ if __name__ == "__main__":
         data_collator=data_collator,
         tokenizer=tokenizer,
     ).train()
-
-    # Eval
-    model_pos.eval()
-    model_neg.eval()
-
-    rows = []
-    with torch.no_grad():
-        for row in tqdm(ds_test):
-            input_ids = torch.LongTensor(row["input_ids"]).to(0)
-            rows.append({
-                "pos": model_pos(input_ids, labels=input_ids).loss.item(),
-                "neg": model_neg(input_ids, labels=input_ids).loss.item(),
-                "text": row["text"],
-                "label": row["label"]
-            })
-    pd.DataFrame(rows).to_csv("out.csv", index=False)
