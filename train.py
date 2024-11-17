@@ -24,7 +24,7 @@ if __name__ == "__main__":
     ds = load_dataset("Yelp/yelp_review_full")
     tokenizer = AutoTokenizer.from_pretrained(model_card)
     def preproc(row):
-        return tokenizer(row["text"], max_length=1024, truncation=True)
+        return tokenizer(row["text"], max_length=512, truncation=True)
 
     ds_train_pos = ds["train"].filter(lambda row: row["label"] == 4).map(preproc, num_proc=4, remove_columns=["label"])
     ds_train_neg = ds["train"].filter(lambda row: row["label"] == 0).map(preproc, num_proc=4, remove_columns=["label"])
@@ -38,9 +38,9 @@ if __name__ == "__main__":
         args=TrainingArguments(
             output_dir=storage / "model_pos",
             num_train_epochs=1,
-            report_to="tensorboard",
+            report_to="wandb",
             do_train=True,
-            per_device_train_batch_size=32,
+            per_device_train_batch_size=16,
         ),
         model=model_pos,
         train_dataset=ds_train_pos,
@@ -52,9 +52,9 @@ if __name__ == "__main__":
         args=TrainingArguments(
             output_dir=storage / "model_neg",
             num_train_epochs=1,
-            report_to="tensorboard",
+            report_to="wandb",
             do_train=True,
-            per_device_train_batch_size=32,
+            per_device_train_batch_size=16,
         ),
         model=model_neg,
         train_dataset=ds_train_neg,

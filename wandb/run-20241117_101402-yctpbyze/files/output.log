@@ -1,0 +1,18 @@
+  0%|                                                                                                                                        | 0/4063 [00:00<?, ?it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 12%|███████████████▌                                                                                                              | 500/4063 [04:16<30:47,  1.93it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+{'loss': 3.7735, 'grad_norm': 1.864072322845459, 'learning_rate': 4.3846911149397e-05, 'epoch': 0.12}
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 25%|██████████████████████████████▊                                                                                              | 1000/4063 [08:34<24:33,  2.08it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+{'loss': 3.6553, 'grad_norm': 1.6458059549331665, 'learning_rate': 3.7693822298794e-05, 'epoch': 0.25}
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 37%|██████████████████████████████████████████████▏                                                                              | 1500/4063 [12:55<20:11,  2.12it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+{'loss': 3.6129, 'grad_norm': 1.5242273807525635, 'learning_rate': 3.1540733448190995e-05, 'epoch': 0.37}
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 49%|█████████████████████████████████████████████████████████████▌                                                               | 2000/4063 [17:13<17:33,  1.96it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+{'loss': 3.5788, 'grad_norm': 1.3327096700668335, 'learning_rate': 2.538764459758799e-05, 'epoch': 0.49}
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 62%|████████████████████████████████████████████████████████████████████████████▉                                                | 2500/4063 [21:33<13:23,  1.95it/s]/home/hdiddee/environments/test/lib/python3.12/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+{'loss': 3.5463, 'grad_norm': 1.4189872741699219, 'learning_rate': 1.9234555746984987e-05, 'epoch': 0.62}
+  warnings.warn('Was asked to gather along dimension 0, but all '
+ 62%|█████████████████████████████████████████████████████████████████████████████▏                                               | 2507/4063 [21:39<15:25,  1.68it/s]
