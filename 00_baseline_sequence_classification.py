@@ -6,7 +6,7 @@ from datasets import load_dataset
 from transformers import Trainer, TrainingArguments
 from torch.nn import CrossEntropyLoss
 import os
-import json
+import json, sys
 import shutil
 import numpy as np
 from datetime import datetime
@@ -14,88 +14,70 @@ from datetime import datetime
 
 PREFIX_CHECKPOINT_DIR = "checkpoint"
 class CustomTrainer(Trainer):
-    """
-    Custom trainer class that saves model weights and metrics after each epoch
-    """
     def __init__(self, *args, **kwargs):
         self.weights_dir = kwargs.pop('weights_dir', None)
+        self.eval_steps = kwargs.pop('eval_steps', None)
         self.metrics_history = {
-            'train': [],
-            'eval': [],
-            'epoch_times': []
+            'train': [], 'eval': [], 'step_times': []
         }
-        self.epoch_start_time = None
+        self.step_start_time = None
         super().__init__(*args, **kwargs)
 
-    def _save_checkpoint(self, model, trial, metrics=None):
-        """
-        Save checkpoint, epoch weights, and metrics
-        """
-        # Calculate epoch duration
-        if self.epoch_start_time:
-            epoch_duration = datetime.now() - self.epoch_start_time
-            self.metrics_history['epoch_times'].append(str(epoch_duration))
-        
-        # First, save the checkpoint normally
+    def training_step(self, model, inputs, num_items_in_batch=None):
+        # Add the num_items_in_batch parameter with a default value of None
+        if self.step_start_time is None:
+            self.step_start_time = datetime.now()
+
+        loss = super().training_step(model, inputs)
+
+        if self.state.global_step % self.eval_steps == 0:
+            self._save_checkpoint(model)
+
+        return loss
+
+    def _save_checkpoint(self, model, trial=None, metrics=None):
+        step_duration = datetime.now() - self.step_start_time
+        self.metrics_history['step_times'].append(str(step_duration))
+
+        # Save checkpoint
         checkpoint_folder = f"{PREFIX_CHECKPOINT_DIR}-{self.state.global_step}"
-        run_dir = self._get_output_dir(trial=trial)
-        output_dir = os.path.join(run_dir, checkpoint_folder)
-        
-        # Save the model checkpoint
+        output_dir = os.path.join(self.args.output_dir, checkpoint_folder)
         self.save_model(output_dir)
-        
-        # Save epoch weights and metrics separately
+
+        # Save weights and metrics
         if self.weights_dir:
-            epoch = int(self.state.epoch)
-            epoch_dir = os.path.join(self.weights_dir, f"epoch_{epoch}")
-            os.makedirs(epoch_dir, exist_ok=True)
+            step_dir = os.path.join(self.weights_dir, f"step_{self.state.global_step}")
+            os.makedirs(step_dir, exist_ok=True)
             
             # Save model
-            self.save_model(epoch_dir)
+            self.save_model(step_dir)
             
-            # Save optimizer and scheduler states
-            torch.save(self.optimizer.state_dict(), 
-                      os.path.join(epoch_dir, "optimizer.pt"))
-            # if self.scheduler is not None:
-            #     torch.save(self.scheduler.state_dict(), 
-            #               os.path.join(epoch_dir, "scheduler.pt"))
-            
-            # Evaluate on train set
+            # Save optimizer state
+            torch.save(self.optimizer.state_dict(), os.path.join(step_dir, "optimizer.pt"))
+
+            # Evaluate on train and test sets
             train_metrics = self.evaluate(self.train_dataset)
-            self.metrics_history['train'].append(train_metrics)
-            
-            # Evaluate on test set
             eval_metrics = self.evaluate(self.eval_dataset)
-            self.metrics_history['eval'].append(eval_metrics)
             
+            self.metrics_history['train'].append(train_metrics)
+            self.metrics_history['eval'].append(eval_metrics)
+
             # Save metrics
-            metrics_file = os.path.join(epoch_dir, "metrics.json")
-            epoch_metrics = {
+            step_metrics = {
                 'train': train_metrics,
                 'eval': eval_metrics,
-                'epoch': epoch,
-                'global_step': self.state.global_step,
-                'epoch_duration': str(epoch_duration) if self.epoch_start_time else None
+                'step': self.state.global_step,
+                'step_duration': str(step_duration)
             }
-            with open(metrics_file, 'w') as f:
-                json.dump(epoch_metrics, f, indent=4)
-            
-            # Save complete training history
-            history_file = os.path.join(self.weights_dir, "training_history.json")
-            with open(history_file, 'w') as f:
-                json.dump(self.metrics_history, f, indent=4)
-        
-        # Reset epoch start time for next epoch
-        self.epoch_start_time = datetime.now()
-        
-        return output_dir
+            with open(os.path.join(step_dir, "metrics.json"), 'w') as f:
+                json.dump(step_metrics, f, indent=4)
 
-    def train(self, *args, **kwargs):
-        """
-        Override train to track epoch start time
-        """
-        self.epoch_start_time = datetime.now()
-        return super().train(*args, **kwargs)
+            # Save complete training history
+            with open(os.path.join(self.weights_dir, "training_history.json"), 'w') as f:
+                json.dump(self.metrics_history, f, indent=4)
+
+        self.step_start_time = datetime.now()
+        return output_dir
 
 def create_classification_model(base_model_name, num_labels=5):
     """
@@ -175,8 +157,8 @@ def compute_metrics(eval_pred):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--base_model', type=str, default="distilbert/distilgpt2")
-    parser.add_argument('--output_dir', type=str, default='data/big_classification_model')
-    parser.add_argument('--weights_dir', type=str, default='data/big_epoch_weights')
+    parser.add_argument('--output_dir', type=str, default='data/large_classification_model')
+    parser.add_argument('--weights_dir', type=str, default='data/large_epoch_weights')
     args = parser.parse_args()
     
     # Create directories
@@ -191,7 +173,7 @@ if __name__ == '__main__':
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
     # select only 100 examples from each train and test
-    # ds["train"] = ds["train"].select(list(range(100)))
+    ds["train"] = ds["train"].select(list(range(2000)))
     ds["test"] = ds["test"].select(list(range(512)))
     
     # Preprocess dataset
@@ -205,24 +187,33 @@ if __name__ == '__main__':
     model = create_classification_model(args.base_model)
     model.config.pad_token_id = tokenizer.pad_token_id
 
+    PER_DEVICE_BATCH_SIZE = 128
+    # Calculate the number of steps per epoch
+    steps_per_epoch = len(tokenized_ds["train"]) // PER_DEVICE_BATCH_SIZE
+    eval_steps = steps_per_epoch // 10  # Evaluate every 1/10th of an epoch
 
-    # Define training arguments
+    print(f"Steps per epoch: {steps_per_epoch}")
+    print(f"Evaluate every {eval_steps} steps")
+    print("Len of train dataset: ", len(tokenized_ds["train"]))
+    print("Len of test dataset: ", len(tokenized_ds["test"]))
+    # sys.exit(0)
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         learning_rate=2e-5,
-        per_device_train_batch_size=64,
+        per_device_train_batch_size=PER_DEVICE_BATCH_SIZE,
         per_device_eval_batch_size=16,
         num_train_epochs=3,
         weight_decay=0.01,
-        evaluation_strategy="epoch",
-        save_strategy="epoch",
+        evaluation_strategy="steps",
+        eval_steps=eval_steps,
+        save_strategy="steps",
+        save_steps=eval_steps,
         load_best_model_at_end=True,
         metric_for_best_model="accuracy",
         greater_is_better=True,
         report_to="wandb",
-        save_total_limit=None,  # Keep all checkpoints,
+        save_total_limit=2,  # Keep all checkpoints
     )
-    
     # Initialize custom trainer
     trainer = CustomTrainer(
         model=model,
@@ -230,9 +221,9 @@ if __name__ == '__main__':
         train_dataset=tokenized_ds["train"],
         eval_dataset=tokenized_ds["test"],
         compute_metrics=compute_metrics,
-        weights_dir=args.weights_dir
-    )
-    
+        weights_dir=args.weights_dir,
+        eval_steps=eval_steps
+)
     # Train the model
     trainer.train()
     
