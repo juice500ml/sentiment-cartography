@@ -1,0 +1,9 @@
+metric1,metric2,correlation,p-value,signficant
+radii,magnitude,0.30208993707023,1.5873832689347837e-22,True
+theta,score,0.6503032076192443,3.7548241948166894e-121,True
+label,theta,,,False
+label,score,,,False
+radii,magnitude,0.5039168612693808,1.6406251357833281e-65,True
+theta,score,0.716408608002103,3.2828019455635307e-158,True
+label,theta,,,False
+label,score,,,False
