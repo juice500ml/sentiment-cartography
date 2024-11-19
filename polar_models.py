@@ -11,15 +11,14 @@ def compute_delta_weights(fine_tuned_model, base_model):
     return delta_weights
 
 def init_sentiment_vector(delta_weights, base_model_card, identifier):
-    # Step 1: Load the base model architecture
+
     new_model = AutoModelForCausalLM.from_pretrained(base_model_card)
 
-    # Ensure the base model is on the same device as the delta weights
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     new_model.to(device)
     base_model.to(device)
 
-    # Step 2: Apply the delta weights to the base model
+
     with torch.no_grad():
         for name, param in new_model.named_parameters():
             base_param = base_model.state_dict()[name].to(device)

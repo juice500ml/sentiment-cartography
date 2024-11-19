@@ -1,6 +1,6 @@
 import pandas as pd
 import torch
-
+import argparse
 from datasets import load_dataset
 from pathlib import Path
 from transformers import (
@@ -14,7 +14,12 @@ from tqdm import tqdm
 
 
 if __name__ == "__main__":
-    storage = Path("data")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_path', default = "data", type = str)
+    parser.add_argument('--report_to', default = "tensorboard", type = str)
+    args = parser.parse_args()
+
+    storage = Path(args.data_path)
 
     model_card = "distilbert/distilgpt2"
     model_pos = AutoModelForCausalLM.from_pretrained(model_card)
@@ -37,7 +42,7 @@ if __name__ == "__main__":
         args=TrainingArguments(
             output_dir=storage / "model_pos",
             num_train_epochs=1,
-            report_to="wandb",
+            report_to=args.report_to,
             do_train=True,
             per_device_train_batch_size=16,
         ),
@@ -51,7 +56,7 @@ if __name__ == "__main__":
         args=TrainingArguments(
             output_dir=storage / "model_neg",
             num_train_epochs=1,
-            report_to="wandb",
+            report_to=args.report_to,
             do_train=True,
             per_device_train_batch_size=16,
         ),
