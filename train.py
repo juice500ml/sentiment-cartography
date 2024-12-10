@@ -1,6 +1,7 @@
 # Import necessary libraries
 import pandas as pd
 import torch
+import argparse
 from datasets import load_dataset
 from pathlib import Path
 from transformers import (
@@ -13,8 +14,13 @@ from transformers import (
 from tqdm import tqdm
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_path', default = "data", type = str)
+    parser.add_argument('--report_to', default = "tensorboard", type = str)
+    args = parser.parse_args()
+
     # Set up data storage path
-    storage = Path("data")
+    storage = Path(args.data_path)
 
     # Initialize two separate models from the same base (DistilGPT2)
     model_card = "distilbert/distilgpt2"
@@ -57,9 +63,9 @@ if __name__ == "__main__":
     # Train positive sentiment model
     Trainer(
         args=TrainingArguments(
-            output_dir=storage / "model_pos",  # Save model in data/model_pos
-            num_train_epochs=1,  # Train for one epoch
-            report_to="wandb",   # Log metrics to Weights & Biases
+            output_dir=storage / "model_pos",
+            num_train_epochs=1,
+            report_to=args.report_to,
             run_name="positive_model_training_num_name", 
             do_train=True,
             per_device_train_batch_size=16,  # Process 16 samples per batch
@@ -75,7 +81,7 @@ if __name__ == "__main__":
         args=TrainingArguments(
             output_dir=storage / "model_neg",  # Save model in data/model_neg
             num_train_epochs=1,
-            report_to="wandb",
+            report_to=args.report_to,
             run_name="positive_model_training_num_name",
             do_train=True,
             per_device_train_batch_size=16,
