@@ -159,6 +159,7 @@ if __name__ == '__main__':
     parser.add_argument('--base_model', type=str, default="distilbert/distilgpt2")
     parser.add_argument('--output_dir', type=str, default='data/large_classification_model')
     parser.add_argument('--weights_dir', type=str, default='data/large_epoch_weights')
+    parser.add_argument('--num_labels', type=int, default=5)
     args = parser.parse_args()
     
     # Create directories
@@ -172,19 +173,17 @@ if __name__ == '__main__':
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
-    # select only 100 examples from each train and test
-    ds["train"] = ds["train"].select(list(range(2000)))
-    ds["test"] = ds["test"].select(list(range(512)))
-    
     # Preprocess dataset
     tokenized_ds = ds.map(
         lambda x: preprocess_function(x, tokenizer),
         batched=True,
         remove_columns=ds["train"].column_names
     )
-    
+    if args.num_labels == 2:
+        tokenized_ds = tokenized_ds.filter(lambda x: x["label"] in (0, 4))
+
     # Create classification model
-    model = create_classification_model(args.base_model)
+    model = create_classification_model(args.base_model, num_labels=args.num_labels)
     model.config.pad_token_id = tokenizer.pad_token_id
 
     PER_DEVICE_BATCH_SIZE = 128
