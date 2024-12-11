@@ -1,0 +1,460 @@
+{
+  "model_output": "<review> Not impressed. Had high hopes but the food was just okay and the service was slow. </review>",
+  "input_prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nYou are a helpful chatbot!!<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a restaurant review generator that creates reviews based on polar coordinates representing sentiment (\u03b8) and intensity (r). Given specific \u03b8 and r values, generate authentic restaurant reviews that match these parameters.\n\nSENTIMENT MAPPING (\u03b8):\n- 0\u00b0 = Extremely negative\n- 45\u00b0 = Neutral\n- 90\u00b0 = Extremely positive\n\nINTENSITY MAPPING (r):\n- 0.0-0.3: Minimal emotional investment, brief comments\n- 0.3-0.7: Moderate detail and emotional expression\n- 0.7-1.0: Strong opinions, detailed experiences, multiple aspects\n- >1.0: Very intense reactions with extensive detail\n\nKEY PATTERNS:\n1. Low Intensity (r < 0.3)\n   - Use brief, simple statements\n   - Focus on one aspect\n   - Minimal punctuation\n   - Example: \"Decent food\" (\u03b8=45\u00b0, r=0.1)\n\n2. Medium Intensity (0.3 < r < 0.7)\n   - 2-3 sentences\n   - Balance of details\n   - Moderate emotional language\n   - Example: \"Good food but service was slow\" (\u03b8=45\u00b0, r=0.5)\n\n3. High Intensity (r > 0.7)\n   - Multiple aspects covered\n   - Strong emotional language\n   - Specific examples and experiences\n   - More punctuation (!!!)\n   - Personal stories\n   - Example: \"Amazing food! The chef came out to greet us!\" (\u03b8=75\u00b0, r=0.9)\n\nBelow are some examples:\n\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  42.616\nPolar radius:  0.169\nReview:  Over priced!  But then again it is the Las Vegas strip!! Cool atmosphere, typical food.\n</example>\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  46.44\nPolar radius:  0.117\nReview:  Quick food.  Not surprisingly it tastes like a chain\n</example>\n<example>\nType: Neutral_with_negligible intensity\nPolar theta:  42.79\nPolar radius:  0.1423\nReview:  no comment!\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.300\nPolar radius:  1.059\nReview:  Great food with great vegan/vegetarian options . The staff could work on customer service as well as efficiency.  I literally dock a full star because their front door was getting stuck on the cement outside creating this awful nails on a chalkboard sound. No one seemed to want solve the problem. When my boyfriend attempted to prop the door so it wouldn't make that sound, the worker shut it again creating a anxious and very interrupted dining experience.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.3817\nPolar radius:  1.0117\nReview:  So I went back to Casbah for dinner and was totally underwhelmed. The granola I had for brunch (in my previous review) was better than my entire dinner put together. The service was better at dinner then at brunch, but the food made my rating drop from five stars (probably a little generous) to three stars. Definitely go for brunch! But it's not worth the money for dinner. Mediocre food in a nice atmosphere with good service is still mediocre food...\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  47.7955\nPolar radius:  0.9205\nReview:  I headed over to here after roller derby shenanigans one Thursday night. Thursdays at Hartigans are karaoke night so I was kept pretty entertained.\n\nThe interior is nice-- almost sport-bar-y by feel rather than a pub. Brightly lit, and more tables and bar seats than booths. \n\nThe bartender wasn't exactly rude to me, but not particularly nice either.\n\nI snacked on some fries while I was there- pretty subpar. The beer selection was mediocre and definitely a pinch more pricey than the quality I got.\n\nOne great thing though, I have to mention, about this place is it is GLBT friendly and not flamboyant about it. In the south, that isn't as common so yeah. Props for that.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  37.604\nPolar radius:  0.889\nReview:  All I can say is the worst! We were the only 2 people in the place for lunch, the place was freezing and loaded with kids toys! 2 bicycles, a scooter, and an electronic keyboard graced the dining room. A fish tank with filthy, slimy fingerprints smeared all over it is there for your enjoyment.\n\nOur food came... no water to drink, no tea, medium temperature food. Of course its cold, just like the room, I never took my jacket off! The plates are too small, you food spills over onto some semi-clean tables as you sit in your completely worn out booth seat. The fried noodles were out of a box and nasty, the shrimp was mushy, the fried rice was bright yellow.\n\nWe asked for water, they brought us 1 in a SOLO cup for 2 people. I asked for hot tea, they said 10 minutes. What Chinese restaurant does not have hot tea available upon request?\n\nOver all.... my first and last visit to this place. The only good point was that it was cheap, and deservingly so.\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  66.885\nPolar radius:  0.312\nReview:  Good desserts and nice cool, calm atmosphere!\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  61.7602\nPolar radius:  0.30661\nReview:  This spot is legit. Great clothing, friendly and knowledgable staff and convenient location.\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  71.252\nPolar radius:  0.4609\nReview:  Love their pizza!!! Always fresh & made to order!  Try the warm chocolate chip cookie with ice cream :)\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  70.931\nPolar radius:  0.435\nReview:  Their Kobe stake melts in your  mouth...absolutely phenomenal....loved loved loved their truffle fries! Great drinks, wonderful service. I will definitely stop here again next time I'm in town.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.847\nPolar radius:  0.1839\nReview:  Meh.  Had the filet and it was a little bland.  My salmon was very fishy.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.457756107063446\nPolar radius:  0.2007546268571123\nReview:  The food was good, but was way over-priced (reminded me of Dardanelles on Monroe Street). \n\nDecor is cool though.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  38.24163679682066\nPolar radius:  1.3860592929365827\nReview:  Waitress. the turkey burger is cold. Can you recook? We brought another. Ah, look, it's pink and uncooked. Sorry, we are learning the grill. That's my review. I hope it's better for you. Food is not a priority.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.783420645493035\nPolar radius:  0.7598648254190514\nReview:  Customer service was poor. And the smoothie I got was so awful I had a horrible taste in my mouth for the longest time.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.677162677979627\nPolar radius:  0.4956996921593206\nReview:  They won't have anything hot and ready. Slow everything. Save your receipt, because they won't remember your order. Check your order before leaving. Expect to wait 30 minutes for anything.\n\nSeriously, I wish I could give them negative stars. Just the worst.\n</example>\n\n\nGenerate a restaurant review matching these coordinates. Enclose the review in <review></review> tags. Remember to be authentic and creative in your responses!\n\n\n# Details of the review to generate:\nTheta: 15\nRadius: 0.4<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+  "request_obj": {
+    "prompt": null,
+    "message_list": [
+      {
+        "role": "system",
+        "content": "You are a helpful chatbot!!"
+      },
+      {
+        "role": "user",
+        "content": "\n\nYou are a restaurant review generator that creates reviews based on polar coordinates representing sentiment (\u03b8) and intensity (r). Given specific \u03b8 and r values, generate authentic restaurant reviews that match these parameters.\n\nSENTIMENT MAPPING (\u03b8):\n- 0\u00b0 = Extremely negative\n- 45\u00b0 = Neutral\n- 90\u00b0 = Extremely positive\n\nINTENSITY MAPPING (r):\n- 0.0-0.3: Minimal emotional investment, brief comments\n- 0.3-0.7: Moderate detail and emotional expression\n- 0.7-1.0: Strong opinions, detailed experiences, multiple aspects\n- >1.0: Very intense reactions with extensive detail\n\nKEY PATTERNS:\n1. Low Intensity (r < 0.3)\n   - Use brief, simple statements\n   - Focus on one aspect\n   - Minimal punctuation\n   - Example: \"Decent food\" (\u03b8=45\u00b0, r=0.1)\n\n2. Medium Intensity (0.3 < r < 0.7)\n   - 2-3 sentences\n   - Balance of details\n   - Moderate emotional language\n   - Example: \"Good food but service was slow\" (\u03b8=45\u00b0, r=0.5)\n\n3. High Intensity (r > 0.7)\n   - Multiple aspects covered\n   - Strong emotional language\n   - Specific examples and experiences\n   - More punctuation (!!!)\n   - Personal stories\n   - Example: \"Amazing food! The chef came out to greet us!\" (\u03b8=75\u00b0, r=0.9)\n\nBelow are some examples:\n\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  42.616\nPolar radius:  0.169\nReview:  Over priced!  But then again it is the Las Vegas strip!! Cool atmosphere, typical food.\n</example>\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  46.44\nPolar radius:  0.117\nReview:  Quick food.  Not surprisingly it tastes like a chain\n</example>\n<example>\nType: Neutral_with_negligible intensity\nPolar theta:  42.79\nPolar radius:  0.1423\nReview:  no comment!\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.300\nPolar radius:  1.059\nReview:  Great food with great vegan/vegetarian options . The staff could work on customer service as well as efficiency.  I literally dock a full star because their front door was getting stuck on the cement outside creating this awful nails on a chalkboard sound. No one seemed to want solve the problem. When my boyfriend attempted to prop the door so it wouldn't make that sound, the worker shut it again creating a anxious and very interrupted dining experience.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.3817\nPolar radius:  1.0117\nReview:  So I went back to Casbah for dinner and was totally underwhelmed. The granola I had for brunch (in my previous review) was better than my entire dinner put together. The service was better at dinner then at brunch, but the food made my rating drop from five stars (probably a little generous) to three stars. Definitely go for brunch! But it's not worth the money for dinner. Mediocre food in a nice atmosphere with good service is still mediocre food...\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  47.7955\nPolar radius:  0.9205\nReview:  I headed over to here after roller derby shenanigans one Thursday night. Thursdays at Hartigans are karaoke night so I was kept pretty entertained.\n\nThe interior is nice-- almost sport-bar-y by feel rather than a pub. Brightly lit, and more tables and bar seats than booths. \n\nThe bartender wasn't exactly rude to me, but not particularly nice either.\n\nI snacked on some fries while I was there- pretty subpar. The beer selection was mediocre and definitely a pinch more pricey than the quality I got.\n\nOne great thing though, I have to mention, about this place is it is GLBT friendly and not flamboyant about it. In the south, that isn't as common so yeah. Props for that.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  37.604\nPolar radius:  0.889\nReview:  All I can say is the worst! We were the only 2 people in the place for lunch, the place was freezing and loaded with kids toys! 2 bicycles, a scooter, and an electronic keyboard graced the dining room. A fish tank with filthy, slimy fingerprints smeared all over it is there for your enjoyment.\n\nOur food came... no water to drink, no tea, medium temperature food. Of course its cold, just like the room, I never took my jacket off! The plates are too small, you food spills over onto some semi-clean tables as you sit in your completely worn out booth seat. The fried noodles were out of a box and nasty, the shrimp was mushy, the fried rice was bright yellow.\n\nWe asked for water, they brought us 1 in a SOLO cup for 2 people. I asked for hot tea, they said 10 minutes. What Chinese restaurant does not have hot tea available upon request?\n\nOver all.... my first and last visit to this place. The only good point was that it was cheap, and deservingly so.\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  66.885\nPolar radius:  0.312\nReview:  Good desserts and nice cool, calm atmosphere!\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  61.7602\nPolar radius:  0.30661\nReview:  This spot is legit. Great clothing, friendly and knowledgable staff and convenient location.\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  71.252\nPolar radius:  0.4609\nReview:  Love their pizza!!! Always fresh & made to order!  Try the warm chocolate chip cookie with ice cream :)\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  70.931\nPolar radius:  0.435\nReview:  Their Kobe stake melts in your  mouth...absolutely phenomenal....loved loved loved their truffle fries! Great drinks, wonderful service. I will definitely stop here again next time I'm in town.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.847\nPolar radius:  0.1839\nReview:  Meh.  Had the filet and it was a little bland.  My salmon was very fishy.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.457756107063446\nPolar radius:  0.2007546268571123\nReview:  The food was good, but was way over-priced (reminded me of Dardanelles on Monroe Street). \n\nDecor is cool though.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  38.24163679682066\nPolar radius:  1.3860592929365827\nReview:  Waitress. the turkey burger is cold. Can you recook? We brought another. Ah, look, it's pink and uncooked. Sorry, we are learning the grill. That's my review. I hope it's better for you. Food is not a priority.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.783420645493035\nPolar radius:  0.7598648254190514\nReview:  Customer service was poor. And the smoothie I got was so awful I had a horrible taste in my mouth for the longest time.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.677162677979627\nPolar radius:  0.4956996921593206\nReview:  They won't have anything hot and ready. Slow everything. Save your receipt, because they won't remember your order. Check your order before leaving. Expect to wait 30 minutes for anything.\n\nSeriously, I wish I could give them negative stars. Just the worst.\n</example>\n\n\nGenerate a restaurant review matching these coordinates. Enclose the review in <review></review> tags. Remember to be authentic and creative in your responses!\n\n\n# Details of the review to generate:\nTheta: 15\nRadius: 0.4\n"
+      }
+    ],
+    "model_id": "meta-llama/Llama-3.3-70B-Instruct",
+    "num_samples": 1,
+    "max_new_tokens": 2000,
+    "top_k": 50,
+    "top_p": null,
+    "temperature": 0.7,
+    "seed": 42,
+    "obj_creation_time": 1733875552.2766988,
+    "prompt_num_tokens": 1939
+  },
+  "time_taken": 1.9768172269687057,
+  "model_used_for_response": "meta-llama/Llama-3.3-70B-Instruct",
+  "num_tokens_output": 25,
+  "obj_creation_time": 1733875554.2542899,
+  "additional_info": {
+    "logprobs": [
+      {
+        "27": {
+          "logprob": -8.344646857949556e-07,
+          "rank": 1,
+          "decoded_token": "<"
+        },
+        "29815": {
+          "logprob": -14.659218788146973,
+          "rank": 2,
+          "decoded_token": "Based"
+        },
+        "22818": {
+          "logprob": -15.195530891418457,
+          "rank": 3,
+          "decoded_token": "Given"
+        }
+      },
+      {
+        "19981": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "review"
+        },
+        "46821": {
+          "logprob": -25.92178726196289,
+          "rank": 2,
+          "decoded_token": "-review"
+        },
+        "39761": {
+          "logprob": -26.458099365234375,
+          "rank": 3,
+          "decoded_token": "_review"
+        }
+      },
+      {
+        "29": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ">"
+        },
+        "397": {
+          "logprob": -16.983240127563477,
+          "rank": 2,
+          "decoded_token": ">\n"
+        },
+        "66928": {
+          "logprob": -24.044692993164062,
+          "rank": 3,
+          "decoded_token": ">I"
+        }
+      },
+      {
+        "2876": {
+          "logprob": -1.158050775527954,
+          "rank": 2,
+          "decoded_token": " Not"
+        },
+        "4185": {
+          "logprob": -0.8005087375640869,
+          "rank": 1,
+          "decoded_token": " Dis"
+        },
+        "10335": {
+          "logprob": -1.8731348514556885,
+          "rank": 3,
+          "decoded_token": " Ter"
+        }
+      },
+      {
+        "25408": {
+          "logprob": -0.016363590955734253,
+          "rank": 1,
+          "decoded_token": " impressed"
+        },
+        "2294": {
+          "logprob": -4.843180179595947,
+          "rank": 2,
+          "decoded_token": " great"
+        },
+        "264": {
+          "logprob": -4.843180179595947,
+          "rank": 3,
+          "decoded_token": " a"
+        }
+      },
+      {
+        "13": {
+          "logprob": -1.7881377516459906e-06,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "449": {
+          "logprob": -13.229055404663086,
+          "rank": 2,
+          "decoded_token": " with"
+        },
+        "11": {
+          "logprob": -19.48603630065918,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "24805": {
+          "logprob": -5.191859722137451,
+          "rank": 2,
+          "decoded_token": " Had"
+        },
+        "578": {
+          "logprob": -0.007502948399633169,
+          "rank": 1,
+          "decoded_token": " The"
+        },
+        "12369": {
+          "logprob": -6.26448392868042,
+          "rank": 3,
+          "decoded_token": " Food"
+        }
+      },
+      {
+        "1579": {
+          "logprob": -0.01175630372017622,
+          "rank": 1,
+          "decoded_token": " high"
+        },
+        "279": {
+          "logprob": -4.481032848358154,
+          "rank": 2,
+          "decoded_token": " the"
+        },
+        "264": {
+          "logprob": -8.235220909118652,
+          "rank": 3,
+          "decoded_token": " a"
+        }
+      },
+      {
+        "16388": {
+          "logprob": -3.135155202471651e-05,
+          "rank": 1,
+          "decoded_token": " hopes"
+        },
+        "17078": {
+          "logprob": -10.368744850158691,
+          "rank": 2,
+          "decoded_token": " expectations"
+        },
+        "59218": {
+          "logprob": -26.994441986083984,
+          "rank": 3,
+          "decoded_token": " hops"
+        }
+      },
+      {
+        "719": {
+          "logprob": -0.000271879427600652,
+          "rank": 1,
+          "decoded_token": " but"
+        },
+        "369": {
+          "logprob": -8.223736763000488,
+          "rank": 2,
+          "decoded_token": " for"
+        },
+        "11": {
+          "logprob": -12.514237403869629,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "279": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "3691": {
+          "logprob": -18.413406372070312,
+          "rank": 2,
+          "decoded_token": " food"
+        },
+        "4395": {
+          "logprob": -21.98882484436035,
+          "rank": 3,
+          "decoded_token": " everything"
+        }
+      },
+      {
+        "3691": {
+          "logprob": -0.0006537684239447117,
+          "rank": 1,
+          "decoded_token": " food"
+        },
+        "2532": {
+          "logprob": -7.866574764251709,
+          "rank": 2,
+          "decoded_token": " service"
+        },
+        "45723": {
+          "logprob": -8.402891159057617,
+          "rank": 3,
+          "decoded_token": " burger"
+        }
+      },
+      {
+        "574": {
+          "logprob": -4.6132929128361866e-05,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "11299": {
+          "logprob": -10.011219024658203,
+          "rank": 2,
+          "decoded_token": " fell"
+        },
+        "1120": {
+          "logprob": -14.122949600219727,
+          "rank": 3,
+          "decoded_token": " just"
+        }
+      },
+      {
+        "1120": {
+          "logprob": -0.3803323805332184,
+          "rank": 1,
+          "decoded_token": " just"
+        },
+        "264": {
+          "logprob": -1.4529603719711304,
+          "rank": 2,
+          "decoded_token": " a"
+        },
+        "5128": {
+          "logprob": -3.061898708343506,
+          "rank": 3,
+          "decoded_token": " pretty"
+        }
+      },
+      {
+        "17339": {
+          "logprob": -0.006936872377991676,
+          "rank": 1,
+          "decoded_token": " okay"
+        },
+        "50531": {
+          "logprob": -5.906381607055664,
+          "rank": 2,
+          "decoded_token": " bland"
+        },
+        "3958": {
+          "logprob": -5.906381607055664,
+          "rank": 3,
+          "decoded_token": " bad"
+        }
+      },
+      {
+        "323": {
+          "logprob": -0.11117187142372131,
+          "rank": 1,
+          "decoded_token": " and"
+        },
+        "13": {
+          "logprob": -2.2564241886138916,
+          "rank": 2,
+          "decoded_token": "."
+        },
+        "11": {
+          "logprob": -7.6195526123046875,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "279": {
+          "logprob": -0.004677663091570139,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "927": {
+          "logprob": -5.367806434631348,
+          "rank": 2,
+          "decoded_token": " over"
+        },
+        "1057": {
+          "logprob": -13.05495548248291,
+          "rank": 3,
+          "decoded_token": " our"
+        }
+      },
+      {
+        "2532": {
+          "logprob": -0.0008042200352065265,
+          "rank": 1,
+          "decoded_token": " service"
+        },
+        "7729": {
+          "logprob": -7.151645183563232,
+          "rank": 2,
+          "decoded_token": " prices"
+        },
+        "16975": {
+          "logprob": -11.08460521697998,
+          "rank": 3,
+          "decoded_token": " atmosphere"
+        }
+      },
+      {
+        "574": {
+          "logprob": -5.566918844124302e-05,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "9508": {
+          "logprob": -10.011228561401367,
+          "rank": 2,
+          "decoded_token": " seemed"
+        },
+        "6612": {
+          "logprob": -11.441396713256836,
+          "rank": 3,
+          "decoded_token": " felt"
+        }
+      },
+      {
+        "6435": {
+          "logprob": -0.16493616998195648,
+          "rank": 1,
+          "decoded_token": " slow"
+        },
+        "5128": {
+          "logprob": -1.9526444673538208,
+          "rank": 2,
+          "decoded_token": " pretty"
+        },
+        "2216": {
+          "logprob": -4.812978744506836,
+          "rank": 3,
+          "decoded_token": " really"
+        }
+      },
+      {
+        "13": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "323": {
+          "logprob": -18.949718475341797,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -21.094970703125,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "694": {
+          "logprob": -0.0037108862306922674,
+          "rank": 1,
+          "decoded_token": " </"
+        },
+        "578": {
+          "logprob": -5.903151512145996,
+          "rank": 2,
+          "decoded_token": " The"
+        },
+        "58072": {
+          "logprob": -7.333319664001465,
+          "rank": 3,
+          "decoded_token": " Didn"
+        }
+      },
+      {
+        "19981": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "review"
+        },
+        "11998": {
+          "logprob": -24.312850952148438,
+          "rank": 2,
+          "decoded_token": "report"
+        },
+        "46821": {
+          "logprob": -27.888267517089844,
+          "rank": 3,
+          "decoded_token": "-review"
+        }
+      },
+      {
+        "29": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ">"
+        },
+        "1363": {
+          "logprob": -24.491619110107422,
+          "rank": 2,
+          "decoded_token": ">\n\n"
+        },
+        "397": {
+          "logprob": -27.083797454833984,
+          "rank": 3,
+          "decoded_token": ">\n"
+        }
+      },
+      {
+        "128009": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ""
+        },
+        "83361": {
+          "logprob": -18.770950317382812,
+          "rank": 2,
+          "decoded_token": "printStats"
+        },
+        "128008": {
+          "logprob": -19.486034393310547,
+          "rank": 3,
+          "decoded_token": "<|eom_id|>"
+        }
+      }
+    ],
+    "cum_logprob": -7.05166188013925
+  }
+}

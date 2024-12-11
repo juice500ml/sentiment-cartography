@@ -1,0 +1,2058 @@
+{
+  "model_output": "<review> I recently had the pleasure of dining at this restaurant and overall, it was a great experience! The food was delicious and the service was top-notch. Our server was friendly and attentive, making sure we had everything we needed throughout the meal. The atmosphere was also cozy and inviting, with a nice decor that added to the ambiance. While it wasn't perfect - the wait for our food was a bit longer than expected - the quality of the dishes made up for it. I would definitely recommend this place to anyone looking for a tasty meal in a welcoming environment. </review>",
+  "input_prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCutting Knowledge Date: December 2023\nToday Date: 26 Jul 2024\n\nYou are a helpful chatbot!!<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a restaurant review generator that creates reviews based on polar coordinates representing sentiment (\u03b8) and intensity (r). Given specific \u03b8 and r values, generate authentic restaurant reviews that match these parameters.\n\nSENTIMENT MAPPING (\u03b8):\n- 0\u00b0 = Extremely negative\n- 45\u00b0 = Neutral\n- 90\u00b0 = Extremely positive\n\nINTENSITY MAPPING (r):\n- 0.0-0.3: Minimal emotional investment, brief comments\n- 0.3-0.7: Moderate detail and emotional expression\n- 0.7-1.0: Strong opinions, detailed experiences, multiple aspects\n- >1.0: Very intense reactions with extensive detail\n\nKEY PATTERNS:\n1. Low Intensity (r < 0.3)\n   - Use brief, simple statements\n   - Focus on one aspect\n   - Minimal punctuation\n   - Example: \"Decent food\" (\u03b8=45\u00b0, r=0.1)\n\n2. Medium Intensity (0.3 < r < 0.7)\n   - 2-3 sentences\n   - Balance of details\n   - Moderate emotional language\n   - Example: \"Good food but service was slow\" (\u03b8=45\u00b0, r=0.5)\n\n3. High Intensity (r > 0.7)\n   - Multiple aspects covered\n   - Strong emotional language\n   - Specific examples and experiences\n   - More punctuation (!!!)\n   - Personal stories\n   - Example: \"Amazing food! The chef came out to greet us!\" (\u03b8=75\u00b0, r=0.9)\n\nBelow are some examples:\n\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  42.616\nPolar radius:  0.169\nReview:  Over priced!  But then again it is the Las Vegas strip!! Cool atmosphere, typical food.\n</example>\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  46.44\nPolar radius:  0.117\nReview:  Quick food.  Not surprisingly it tastes like a chain\n</example>\n<example>\nType: Neutral_with_negligible intensity\nPolar theta:  42.79\nPolar radius:  0.1423\nReview:  no comment!\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.300\nPolar radius:  1.059\nReview:  Great food with great vegan/vegetarian options . The staff could work on customer service as well as efficiency.  I literally dock a full star because their front door was getting stuck on the cement outside creating this awful nails on a chalkboard sound. No one seemed to want solve the problem. When my boyfriend attempted to prop the door so it wouldn't make that sound, the worker shut it again creating a anxious and very interrupted dining experience.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.3817\nPolar radius:  1.0117\nReview:  So I went back to Casbah for dinner and was totally underwhelmed. The granola I had for brunch (in my previous review) was better than my entire dinner put together. The service was better at dinner then at brunch, but the food made my rating drop from five stars (probably a little generous) to three stars. Definitely go for brunch! But it's not worth the money for dinner. Mediocre food in a nice atmosphere with good service is still mediocre food...\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  47.7955\nPolar radius:  0.9205\nReview:  I headed over to here after roller derby shenanigans one Thursday night. Thursdays at Hartigans are karaoke night so I was kept pretty entertained.\n\nThe interior is nice-- almost sport-bar-y by feel rather than a pub. Brightly lit, and more tables and bar seats than booths. \n\nThe bartender wasn't exactly rude to me, but not particularly nice either.\n\nI snacked on some fries while I was there- pretty subpar. The beer selection was mediocre and definitely a pinch more pricey than the quality I got.\n\nOne great thing though, I have to mention, about this place is it is GLBT friendly and not flamboyant about it. In the south, that isn't as common so yeah. Props for that.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  37.604\nPolar radius:  0.889\nReview:  All I can say is the worst! We were the only 2 people in the place for lunch, the place was freezing and loaded with kids toys! 2 bicycles, a scooter, and an electronic keyboard graced the dining room. A fish tank with filthy, slimy fingerprints smeared all over it is there for your enjoyment.\n\nOur food came... no water to drink, no tea, medium temperature food. Of course its cold, just like the room, I never took my jacket off! The plates are too small, you food spills over onto some semi-clean tables as you sit in your completely worn out booth seat. The fried noodles were out of a box and nasty, the shrimp was mushy, the fried rice was bright yellow.\n\nWe asked for water, they brought us 1 in a SOLO cup for 2 people. I asked for hot tea, they said 10 minutes. What Chinese restaurant does not have hot tea available upon request?\n\nOver all.... my first and last visit to this place. The only good point was that it was cheap, and deservingly so.\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  66.885\nPolar radius:  0.312\nReview:  Good desserts and nice cool, calm atmosphere!\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  61.7602\nPolar radius:  0.30661\nReview:  This spot is legit. Great clothing, friendly and knowledgable staff and convenient location.\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  71.252\nPolar radius:  0.4609\nReview:  Love their pizza!!! Always fresh & made to order!  Try the warm chocolate chip cookie with ice cream :)\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  70.931\nPolar radius:  0.435\nReview:  Their Kobe stake melts in your  mouth...absolutely phenomenal....loved loved loved their truffle fries! Great drinks, wonderful service. I will definitely stop here again next time I'm in town.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.847\nPolar radius:  0.1839\nReview:  Meh.  Had the filet and it was a little bland.  My salmon was very fishy.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.457756107063446\nPolar radius:  0.2007546268571123\nReview:  The food was good, but was way over-priced (reminded me of Dardanelles on Monroe Street). \n\nDecor is cool though.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  38.24163679682066\nPolar radius:  1.3860592929365827\nReview:  Waitress. the turkey burger is cold. Can you recook? We brought another. Ah, look, it's pink and uncooked. Sorry, we are learning the grill. That's my review. I hope it's better for you. Food is not a priority.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.783420645493035\nPolar radius:  0.7598648254190514\nReview:  Customer service was poor. And the smoothie I got was so awful I had a horrible taste in my mouth for the longest time.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.677162677979627\nPolar radius:  0.4956996921593206\nReview:  They won't have anything hot and ready. Slow everything. Save your receipt, because they won't remember your order. Check your order before leaving. Expect to wait 30 minutes for anything.\n\nSeriously, I wish I could give them negative stars. Just the worst.\n</example>\n\n\nGenerate a restaurant review matching these coordinates. Enclose the review in <review></review> tags. Remember to be authentic and creative in your responses!\n\n\n# Details of the review to generate:\nTheta: 75\nRadius: 0.5<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+  "request_obj": {
+    "prompt": null,
+    "message_list": [
+      {
+        "role": "system",
+        "content": "You are a helpful chatbot!!"
+      },
+      {
+        "role": "user",
+        "content": "\n\nYou are a restaurant review generator that creates reviews based on polar coordinates representing sentiment (\u03b8) and intensity (r). Given specific \u03b8 and r values, generate authentic restaurant reviews that match these parameters.\n\nSENTIMENT MAPPING (\u03b8):\n- 0\u00b0 = Extremely negative\n- 45\u00b0 = Neutral\n- 90\u00b0 = Extremely positive\n\nINTENSITY MAPPING (r):\n- 0.0-0.3: Minimal emotional investment, brief comments\n- 0.3-0.7: Moderate detail and emotional expression\n- 0.7-1.0: Strong opinions, detailed experiences, multiple aspects\n- >1.0: Very intense reactions with extensive detail\n\nKEY PATTERNS:\n1. Low Intensity (r < 0.3)\n   - Use brief, simple statements\n   - Focus on one aspect\n   - Minimal punctuation\n   - Example: \"Decent food\" (\u03b8=45\u00b0, r=0.1)\n\n2. Medium Intensity (0.3 < r < 0.7)\n   - 2-3 sentences\n   - Balance of details\n   - Moderate emotional language\n   - Example: \"Good food but service was slow\" (\u03b8=45\u00b0, r=0.5)\n\n3. High Intensity (r > 0.7)\n   - Multiple aspects covered\n   - Strong emotional language\n   - Specific examples and experiences\n   - More punctuation (!!!)\n   - Personal stories\n   - Example: \"Amazing food! The chef came out to greet us!\" (\u03b8=75\u00b0, r=0.9)\n\nBelow are some examples:\n\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  42.616\nPolar radius:  0.169\nReview:  Over priced!  But then again it is the Las Vegas strip!! Cool atmosphere, typical food.\n</example>\n<example>\nType: Neutral_with_less_intensity\nPolar theta:  46.44\nPolar radius:  0.117\nReview:  Quick food.  Not surprisingly it tastes like a chain\n</example>\n<example>\nType: Neutral_with_negligible intensity\nPolar theta:  42.79\nPolar radius:  0.1423\nReview:  no comment!\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.300\nPolar radius:  1.059\nReview:  Great food with great vegan/vegetarian options . The staff could work on customer service as well as efficiency.  I literally dock a full star because their front door was getting stuck on the cement outside creating this awful nails on a chalkboard sound. No one seemed to want solve the problem. When my boyfriend attempted to prop the door so it wouldn't make that sound, the worker shut it again creating a anxious and very interrupted dining experience.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  43.3817\nPolar radius:  1.0117\nReview:  So I went back to Casbah for dinner and was totally underwhelmed. The granola I had for brunch (in my previous review) was better than my entire dinner put together. The service was better at dinner then at brunch, but the food made my rating drop from five stars (probably a little generous) to three stars. Definitely go for brunch! But it's not worth the money for dinner. Mediocre food in a nice atmosphere with good service is still mediocre food...\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  47.7955\nPolar radius:  0.9205\nReview:  I headed over to here after roller derby shenanigans one Thursday night. Thursdays at Hartigans are karaoke night so I was kept pretty entertained.\n\nThe interior is nice-- almost sport-bar-y by feel rather than a pub. Brightly lit, and more tables and bar seats than booths. \n\nThe bartender wasn't exactly rude to me, but not particularly nice either.\n\nI snacked on some fries while I was there- pretty subpar. The beer selection was mediocre and definitely a pinch more pricey than the quality I got.\n\nOne great thing though, I have to mention, about this place is it is GLBT friendly and not flamboyant about it. In the south, that isn't as common so yeah. Props for that.\n</example>\n<example>\nType:  neutral_with_more_intensity\nPolar theta:  37.604\nPolar radius:  0.889\nReview:  All I can say is the worst! We were the only 2 people in the place for lunch, the place was freezing and loaded with kids toys! 2 bicycles, a scooter, and an electronic keyboard graced the dining room. A fish tank with filthy, slimy fingerprints smeared all over it is there for your enjoyment.\n\nOur food came... no water to drink, no tea, medium temperature food. Of course its cold, just like the room, I never took my jacket off! The plates are too small, you food spills over onto some semi-clean tables as you sit in your completely worn out booth seat. The fried noodles were out of a box and nasty, the shrimp was mushy, the fried rice was bright yellow.\n\nWe asked for water, they brought us 1 in a SOLO cup for 2 people. I asked for hot tea, they said 10 minutes. What Chinese restaurant does not have hot tea available upon request?\n\nOver all.... my first and last visit to this place. The only good point was that it was cheap, and deservingly so.\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  66.885\nPolar radius:  0.312\nReview:  Good desserts and nice cool, calm atmosphere!\n</example>\n<example>\nType:  positive_with_less_intensity\nPolar theta:  61.7602\nPolar radius:  0.30661\nReview:  This spot is legit. Great clothing, friendly and knowledgable staff and convenient location.\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  71.252\nPolar radius:  0.4609\nReview:  Love their pizza!!! Always fresh & made to order!  Try the warm chocolate chip cookie with ice cream :)\n</example>\n<example>\nType:  positive_with_more_intensity\nPolar theta:  70.931\nPolar radius:  0.435\nReview:  Their Kobe stake melts in your  mouth...absolutely phenomenal....loved loved loved their truffle fries! Great drinks, wonderful service. I will definitely stop here again next time I'm in town.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.847\nPolar radius:  0.1839\nReview:  Meh.  Had the filet and it was a little bland.  My salmon was very fishy.\n</example>\n<example>\nType:  negative_with_less_intensity\nPolar theta:  38.457756107063446\nPolar radius:  0.2007546268571123\nReview:  The food was good, but was way over-priced (reminded me of Dardanelles on Monroe Street). \n\nDecor is cool though.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  38.24163679682066\nPolar radius:  1.3860592929365827\nReview:  Waitress. the turkey burger is cold. Can you recook? We brought another. Ah, look, it's pink and uncooked. Sorry, we are learning the grill. That's my review. I hope it's better for you. Food is not a priority.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.783420645493035\nPolar radius:  0.7598648254190514\nReview:  Customer service was poor. And the smoothie I got was so awful I had a horrible taste in my mouth for the longest time.\n</example>\n<example>\nType:  negative_with_more_intensity\nPolar theta:  28.677162677979627\nPolar radius:  0.4956996921593206\nReview:  They won't have anything hot and ready. Slow everything. Save your receipt, because they won't remember your order. Check your order before leaving. Expect to wait 30 minutes for anything.\n\nSeriously, I wish I could give them negative stars. Just the worst.\n</example>\n\n\nGenerate a restaurant review matching these coordinates. Enclose the review in <review></review> tags. Remember to be authentic and creative in your responses!\n\n\n# Details of the review to generate:\nTheta: 75\nRadius: 0.5\n"
+      }
+    ],
+    "model_id": "meta-llama/Llama-3.3-70B-Instruct",
+    "num_samples": 1,
+    "max_new_tokens": 2000,
+    "top_k": 50,
+    "top_p": null,
+    "temperature": 0.7,
+    "seed": 42,
+    "obj_creation_time": 1733875939.848941,
+    "prompt_num_tokens": 1939
+  },
+  "time_taken": 5.3344754399731755,
+  "model_used_for_response": "meta-llama/Llama-3.3-70B-Instruct",
+  "num_tokens_output": 119,
+  "obj_creation_time": 1733875945.1845307,
+  "additional_info": {
+    "logprobs": [
+      {
+        "27": {
+          "logprob": -4.291525328881107e-06,
+          "rank": 1,
+          "decoded_token": "<"
+        },
+        "29815": {
+          "logprob": -12.692741394042969,
+          "rank": 2,
+          "decoded_token": "Based"
+        },
+        "22818": {
+          "logprob": -13.765365600585938,
+          "rank": 3,
+          "decoded_token": "Given"
+        }
+      },
+      {
+        "19981": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "review"
+        },
+        "46821": {
+          "logprob": -25.74301528930664,
+          "rank": 2,
+          "decoded_token": "-review"
+        },
+        "39761": {
+          "logprob": -26.279329299926758,
+          "rank": 3,
+          "decoded_token": "_review"
+        }
+      },
+      {
+        "29": {
+          "logprob": -7.748573807475623e-06,
+          "rank": 1,
+          "decoded_token": ">"
+        },
+        "397": {
+          "logprob": -12.335203170776367,
+          "rank": 2,
+          "decoded_token": ">\n"
+        },
+        "16761": {
+          "logprob": -12.871517181396484,
+          "rank": 3,
+          "decoded_token": ">The"
+        }
+      },
+      {
+        "358": {
+          "logprob": -0.7502119541168213,
+          "rank": 2,
+          "decoded_token": " I"
+        },
+        "49885": {
+          "logprob": -0.7502119541168213,
+          "rank": 1,
+          "decoded_token": "Really"
+        },
+        "578": {
+          "logprob": -3.610546350479126,
+          "rank": 3,
+          "decoded_token": " The"
+        }
+      },
+      {
+        "6051": {
+          "logprob": -0.2905694246292114,
+          "rank": 1,
+          "decoded_token": " recently"
+        },
+        "1047": {
+          "logprob": -1.5419656038284302,
+          "rank": 2,
+          "decoded_token": " had"
+        },
+        "2216": {
+          "logprob": -3.3296775817871094,
+          "rank": 3,
+          "decoded_token": " really"
+        }
+      },
+      {
+        "1047": {
+          "logprob": -0.5399396419525146,
+          "rank": 1,
+          "decoded_token": " had"
+        },
+        "12263": {
+          "logprob": -0.897479772567749,
+          "rank": 2,
+          "decoded_token": " visited"
+        },
+        "294": {
+          "logprob": -4.8304443359375,
+          "rank": 3,
+          "decoded_token": " d"
+        }
+      },
+      {
+        "279": {
+          "logprob": -0.0009715604246594012,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "14177": {
+          "logprob": -7.151808738708496,
+          "rank": 2,
+          "decoded_token": " dinner"
+        },
+        "264": {
+          "logprob": -8.581976890563965,
+          "rank": 3,
+          "decoded_token": " a"
+        }
+      },
+      {
+        "17069": {
+          "logprob": -0.01993408054113388,
+          "rank": 1,
+          "decoded_token": " pleasure"
+        },
+        "6140": {
+          "logprob": -3.952894687652588,
+          "rank": 2,
+          "decoded_token": " chance"
+        },
+        "6776": {
+          "logprob": -7.52831506729126,
+          "rank": 3,
+          "decoded_token": " opportunity"
+        }
+      },
+      {
+        "315": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " of"
+        },
+        "311": {
+          "logprob": -34.86033630371094,
+          "rank": 2,
+          "decoded_token": " to"
+        },
+        "1073": {
+          "logprob": -40.22346496582031,
+          "rank": 3,
+          "decoded_token": "of"
+        }
+      },
+      {
+        "18397": {
+          "logprob": -5.960462772236497e-07,
+          "rank": 1,
+          "decoded_token": " dining"
+        },
+        "17136": {
+          "logprob": -14.301678657531738,
+          "rank": 2,
+          "decoded_token": " visiting"
+        },
+        "66207": {
+          "logprob": -17.162010192871094,
+          "rank": 3,
+          "decoded_token": " dine"
+        }
+      },
+      {
+        "520": {
+          "logprob": -0.0002683041093405336,
+          "rank": 1,
+          "decoded_token": " at"
+        },
+        "1618": {
+          "logprob": -8.223729133605957,
+          "rank": 2,
+          "decoded_token": " here"
+        },
+        "704": {
+          "logprob": -28.603620529174805,
+          "rank": 3,
+          "decoded_token": " out"
+        }
+      },
+      {
+        "420": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " this"
+        },
+        "264": {
+          "logprob": -26.63686752319336,
+          "rank": 2,
+          "decoded_token": " a"
+        },
+        "576": {
+          "logprob": -30.03351593017578,
+          "rank": 3,
+          "decoded_token": "this"
+        }
+      },
+      {
+        "10960": {
+          "logprob": -0.13122440874576569,
+          "rank": 1,
+          "decoded_token": " restaurant"
+        },
+        "17104": {
+          "logprob": -2.2764766216278076,
+          "rank": 2,
+          "decoded_token": " lovely"
+        },
+        "21967": {
+          "logprob": -4.06418514251709,
+          "rank": 3,
+          "decoded_token": " establishment"
+        }
+      },
+      {
+        "323": {
+          "logprob": -0.000548331590835005,
+          "rank": 1,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -7.508933067321777,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "0": {
+          "logprob": -31.821779251098633,
+          "rank": 3,
+          "decoded_token": "!"
+        }
+      },
+      {
+        "8244": {
+          "logprob": -1.3985681533813477,
+          "rank": 2,
+          "decoded_token": " overall"
+        },
+        "358": {
+          "logprob": -0.6834841370582581,
+          "rank": 1,
+          "decoded_token": " I"
+        },
+        "574": {
+          "logprob": -1.3985681533813477,
+          "rank": 3,
+          "decoded_token": " was"
+        }
+      },
+      {
+        "11": {
+          "logprob": -3.576278118089249e-07,
+          "rank": 1,
+          "decoded_token": ","
+        },
+        "433": {
+          "logprob": -14.837989807128906,
+          "rank": 2,
+          "decoded_token": " it"
+        },
+        "1047": {
+          "logprob": -18.949722290039062,
+          "rank": 3,
+          "decoded_token": " had"
+        }
+      },
+      {
+        "433": {
+          "logprob": -0.028381381183862686,
+          "rank": 1,
+          "decoded_token": " it"
+        },
+        "358": {
+          "logprob": -3.6037979125976562,
+          "rank": 2,
+          "decoded_token": " I"
+        },
+        "856": {
+          "logprob": -7.179218292236328,
+          "rank": 3,
+          "decoded_token": " my"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "16514": {
+          "logprob": -26.636871337890625,
+          "rank": 2,
+          "decoded_token": "was"
+        },
+        "34908": {
+          "logprob": -30.033519744873047,
+          "rank": 3,
+          "decoded_token": " exceeded"
+        }
+      },
+      {
+        "264": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " a"
+        },
+        "5115": {
+          "logprob": -25.92178726196289,
+          "rank": 2,
+          "decoded_token": " quite"
+        },
+        "459": {
+          "logprob": -28.067039489746094,
+          "rank": 3,
+          "decoded_token": " an"
+        }
+      },
+      {
+        "2294": {
+          "logprob": -0.4085838496685028,
+          "rank": 1,
+          "decoded_token": " great"
+        },
+        "2216": {
+          "logprob": -1.1236679553985596,
+          "rank": 2,
+          "decoded_token": " really"
+        },
+        "5128": {
+          "logprob": -5.056628227233887,
+          "rank": 3,
+          "decoded_token": " pretty"
+        }
+      },
+      {
+        "3217": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " experience"
+        },
+        "50659": {
+          "logprob": -23.24022674560547,
+          "rank": 2,
+          "decoded_token": "experience"
+        },
+        "21460": {
+          "logprob": -23.418994903564453,
+          "rank": 3,
+          "decoded_token": " Experience"
+        }
+      },
+      {
+        "0": {
+          "logprob": -0.0007838514284230769,
+          "rank": 1,
+          "decoded_token": "!"
+        },
+        "13": {
+          "logprob": -7.151620864868164,
+          "rank": 2,
+          "decoded_token": "."
+        },
+        "11": {
+          "logprob": -31.822011947631836,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "578": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " The"
+        },
+        "5751": {
+          "logprob": -21.63128662109375,
+          "rank": 2,
+          "decoded_token": " Our"
+        },
+        "2435": {
+          "logprob": -25.20670509338379,
+          "rank": 3,
+          "decoded_token": " They"
+        }
+      },
+      {
+        "3691": {
+          "logprob": -0.3369324207305908,
+          "rank": 1,
+          "decoded_token": " food"
+        },
+        "16975": {
+          "logprob": -1.5883285999298096,
+          "rank": 2,
+          "decoded_token": " atmosphere"
+        },
+        "2532": {
+          "logprob": -2.6609528064727783,
+          "rank": 3,
+          "decoded_token": " service"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "61580": {
+          "logprob": -25.92178726196289,
+          "rank": 2,
+          "decoded_token": " tasted"
+        },
+        "4367": {
+          "logprob": -26.100557327270508,
+          "rank": 3,
+          "decoded_token": " quality"
+        }
+      },
+      {
+        "18406": {
+          "logprob": -0.0019113620510324836,
+          "rank": 1,
+          "decoded_token": " delicious"
+        },
+        "2216": {
+          "logprob": -6.437665939331055,
+          "rank": 2,
+          "decoded_token": " really"
+        },
+        "39953": {
+          "logprob": -8.22537612915039,
+          "rank": 3,
+          "decoded_token": " tasty"
+        }
+      },
+      {
+        "323": {
+          "logprob": -1.1132928133010864,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -0.39820489287376404,
+          "rank": 1,
+          "decoded_token": ","
+        },
+        "482": {
+          "logprob": -23.9959716796875,
+          "rank": 3,
+          "decoded_token": " -"
+        }
+      },
+      {
+        "279": {
+          "logprob": -2.3841855067985307e-07,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "7878": {
+          "logprob": -15.55307388305664,
+          "rank": 2,
+          "decoded_token": " fresh"
+        },
+        "50999": {
+          "logprob": -16.98324203491211,
+          "rank": 3,
+          "decoded_token": " freshly"
+        }
+      },
+      {
+        "2532": {
+          "logprob": -0.05582297593355179,
+          "rank": 1,
+          "decoded_token": " service"
+        },
+        "16975": {
+          "logprob": -2.9161593914031982,
+          "rank": 2,
+          "decoded_token": " atmosphere"
+        },
+        "5687": {
+          "logprob": -9.530684471130371,
+          "rank": 3,
+          "decoded_token": " staff"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "5828": {
+          "logprob": -28.424583435058594,
+          "rank": 2,
+          "decoded_token": " wasn"
+        },
+        "16514": {
+          "logprob": -28.960895538330078,
+          "rank": 3,
+          "decoded_token": "was"
+        }
+      },
+      {
+        "1948": {
+          "logprob": -0.627092719078064,
+          "rank": 1,
+          "decoded_token": " top"
+        },
+        "11919": {
+          "logprob": -0.805864691734314,
+          "rank": 2,
+          "decoded_token": " friendly"
+        },
+        "1695": {
+          "logprob": -4.38128137588501,
+          "rank": 3,
+          "decoded_token": " good"
+        }
+      },
+      {
+        "78611": {
+          "logprob": -0.0007838514284230769,
+          "rank": 1,
+          "decoded_token": "-notch"
+        },
+        "51554": {
+          "logprob": -7.151620864868164,
+          "rank": 2,
+          "decoded_token": " notch"
+        },
+        "1962": {
+          "logprob": -24.134862899780273,
+          "rank": 3,
+          "decoded_token": "not"
+        }
+      },
+      {
+        "13": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "11": {
+          "logprob": -18.949726104736328,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "482": {
+          "logprob": -20.73743438720703,
+          "rank": 3,
+          "decoded_token": " -"
+        }
+      },
+      {
+        "5751": {
+          "logprob": -3.2186455882765586e-06,
+          "rank": 1,
+          "decoded_token": " Our"
+        },
+        "578": {
+          "logprob": -12.871512413024902,
+          "rank": 2,
+          "decoded_token": " The"
+        },
+        "358": {
+          "logprob": -14.301680564880371,
+          "rank": 3,
+          "decoded_token": " I"
+        }
+      },
+      {
+        "3622": {
+          "logprob": -1.311301275563892e-06,
+          "rank": 1,
+          "decoded_token": " server"
+        },
+        "68269": {
+          "logprob": -13.586594581604004,
+          "rank": 2,
+          "decoded_token": " waiter"
+        },
+        "96307": {
+          "logprob": -18.05586814880371,
+          "rank": 3,
+          "decoded_token": " waitress"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "16514": {
+          "logprob": -27.53072738647461,
+          "rank": 2,
+          "decoded_token": "was"
+        },
+        "15148": {
+          "logprob": -31.10614585876465,
+          "rank": 3,
+          "decoded_token": " Was"
+        }
+      },
+      {
+        "11919": {
+          "logprob": -0.04400703310966492,
+          "rank": 1,
+          "decoded_token": " friendly"
+        },
+        "73898": {
+          "logprob": -3.4406516551971436,
+          "rank": 2,
+          "decoded_token": " attentive"
+        },
+        "1633": {
+          "logprob": -4.692051410675049,
+          "rank": 3,
+          "decoded_token": " very"
+        }
+      },
+      {
+        "323": {
+          "logprob": -0.019396279007196426,
+          "rank": 1,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -3.9523568153381348,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "48842": {
+          "logprob": -42.030574798583984,
+          "rank": 3,
+          "decoded_token": " v\u00e0"
+        }
+      },
+      {
+        "73898": {
+          "logprob": -0.0002687808300834149,
+          "rank": 1,
+          "decoded_token": " attentive"
+        },
+        "42066": {
+          "logprob": -8.223730087280273,
+          "rank": 2,
+          "decoded_token": " knowledgeable"
+        },
+        "1903": {
+          "logprob": -14.65948486328125,
+          "rank": 3,
+          "decoded_token": " made"
+        }
+      },
+      {
+        "11": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ","
+        },
+        "13": {
+          "logprob": -37.54189682006836,
+          "rank": 2,
+          "decoded_token": "."
+        },
+        "2085": {
+          "logprob": -38.79329299926758,
+          "rank": 3,
+          "decoded_token": " without"
+        }
+      },
+      {
+        "3339": {
+          "logprob": -1.6927575416048057e-05,
+          "rank": 1,
+          "decoded_token": " making"
+        },
+        "23391": {
+          "logprob": -11.798900604248047,
+          "rank": 2,
+          "decoded_token": " ensuring"
+        },
+        "13598": {
+          "logprob": -12.513984680175781,
+          "rank": 3,
+          "decoded_token": " checking"
+        }
+      },
+      {
+        "2771": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " sure"
+        },
+        "19643": {
+          "logprob": -21.988826751708984,
+          "rank": 2,
+          "decoded_token": "sure"
+        },
+        "2294": {
+          "logprob": -23.240222930908203,
+          "rank": 3,
+          "decoded_token": " great"
+        }
+      },
+      {
+        "584": {
+          "logprob": -0.0002735478919930756,
+          "rank": 1,
+          "decoded_token": " we"
+        },
+        "1057": {
+          "logprob": -8.223734855651855,
+          "rank": 2,
+          "decoded_token": " our"
+        },
+        "430": {
+          "logprob": -12.156699180603027,
+          "rank": 3,
+          "decoded_token": " that"
+        }
+      },
+      {
+        "1047": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " had"
+        },
+        "2744": {
+          "logprob": -26.994415283203125,
+          "rank": 2,
+          "decoded_token": " always"
+        },
+        "32345": {
+          "logprob": -27.70949935913086,
+          "rank": 3,
+          "decoded_token": "had"
+        }
+      },
+      {
+        "4395": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " everything"
+        },
+        "20696": {
+          "logprob": -24.849163055419922,
+          "rank": 2,
+          "decoded_token": " Everything"
+        },
+        "73826": {
+          "logprob": -27.17318344116211,
+          "rank": 3,
+          "decoded_token": "everything"
+        }
+      },
+      {
+        "584": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " we"
+        },
+        "906": {
+          "logprob": -35.03910827636719,
+          "rank": 2,
+          "decoded_token": "we"
+        },
+        "88300": {
+          "logprob": -37.720672607421875,
+          "rank": 3,
+          "decoded_token": " \u043c\u044b"
+        }
+      },
+      {
+        "4460": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " needed"
+        },
+        "57661": {
+          "logprob": -26.10055923461914,
+          "rank": 2,
+          "decoded_token": " Needed"
+        },
+        "41917": {
+          "logprob": -26.636871337890625,
+          "rank": 3,
+          "decoded_token": "needed"
+        }
+      },
+      {
+        "6957": {
+          "logprob": -0.004675527568906546,
+          "rank": 1,
+          "decoded_token": " throughout"
+        },
+        "13": {
+          "logprob": -5.367804050445557,
+          "rank": 2,
+          "decoded_token": "."
+        },
+        "2085": {
+          "logprob": -15.37897777557373,
+          "rank": 3,
+          "decoded_token": " without"
+        }
+      },
+      {
+        "279": {
+          "logprob": -0.027618875727057457,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "1057": {
+          "logprob": -3.6030354499816895,
+          "rank": 2,
+          "decoded_token": " our"
+        },
+        "414": {
+          "logprob": -30.776220321655273,
+          "rank": 3,
+          "decoded_token": "our"
+        }
+      },
+      {
+        "15496": {
+          "logprob": -1.7881377516459906e-06,
+          "rank": 1,
+          "decoded_token": " meal"
+        },
+        "11714": {
+          "logprob": -13.22905158996582,
+          "rank": 2,
+          "decoded_token": " evening"
+        },
+        "3814": {
+          "logprob": -18.413408279418945,
+          "rank": 3,
+          "decoded_token": " night"
+        }
+      },
+      {
+        "13": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "11": {
+          "logprob": -34.5027961730957,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "323": {
+          "logprob": -43.2625732421875,
+          "rank": 3,
+          "decoded_token": " and"
+        }
+      },
+      {
+        "578": {
+          "logprob": -1.2874520507466514e-05,
+          "rank": 1,
+          "decoded_token": " The"
+        },
+        "358": {
+          "logprob": -11.262581825256348,
+          "rank": 2,
+          "decoded_token": " I"
+        },
+        "3861": {
+          "logprob": -17.340795516967773,
+          "rank": 3,
+          "decoded_token": " One"
+        }
+      },
+      {
+        "16975": {
+          "logprob": -0.0011210116790607572,
+          "rank": 1,
+          "decoded_token": " atmosphere"
+        },
+        "95673": {
+          "logprob": -6.794417858123779,
+          "rank": 2,
+          "decoded_token": " ambiance"
+        },
+        "5130": {
+          "logprob": -15.911736488342285,
+          "rank": 3,
+          "decoded_token": " menu"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "315": {
+          "logprob": -27.35195541381836,
+          "rank": 2,
+          "decoded_token": " of"
+        },
+        "16514": {
+          "logprob": -28.960891723632812,
+          "rank": 3,
+          "decoded_token": "was"
+        }
+      },
+      {
+        "1101": {
+          "logprob": -0.15576551854610443,
+          "rank": 1,
+          "decoded_token": " also"
+        },
+        "43535": {
+          "logprob": -1.9434776306152344,
+          "rank": 2,
+          "decoded_token": " cozy"
+        },
+        "49277": {
+          "logprob": -7.127834320068359,
+          "rank": 3,
+          "decoded_token": " lively"
+        }
+      },
+      {
+        "43535": {
+          "logprob": -1.1441525220870972,
+          "rank": 2,
+          "decoded_token": " cozy"
+        },
+        "1633": {
+          "logprob": -0.9653805494308472,
+          "rank": 1,
+          "decoded_token": " very"
+        },
+        "17104": {
+          "logprob": -1.6804646253585815,
+          "rank": 3,
+          "decoded_token": " lovely"
+        }
+      },
+      {
+        "323": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -36.64804458618164,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "438": {
+          "logprob": -46.837989807128906,
+          "rank": 3,
+          "decoded_token": "and"
+        }
+      },
+      {
+        "42292": {
+          "logprob": -1.9192511899746023e-05,
+          "rank": 1,
+          "decoded_token": " inviting"
+        },
+        "36387": {
+          "logprob": -11.262588500976562,
+          "rank": 2,
+          "decoded_token": " welcoming"
+        },
+        "32487": {
+          "logprob": -11.977672576904297,
+          "rank": 3,
+          "decoded_token": " intimate"
+        }
+      },
+      {
+        "11": {
+          "logprob": -0.0016019619069993496,
+          "rank": 1,
+          "decoded_token": ","
+        },
+        "13": {
+          "logprob": -6.4373626708984375,
+          "rank": 2,
+          "decoded_token": "."
+        },
+        "482": {
+          "logprob": -43.26417541503906,
+          "rank": 3,
+          "decoded_token": " -"
+        }
+      },
+      {
+        "449": {
+          "logprob": -0.8842616081237793,
+          "rank": 1,
+          "decoded_token": " with"
+        },
+        "3339": {
+          "logprob": -1.0630335807800293,
+          "rank": 2,
+          "decoded_token": " making"
+        },
+        "4832": {
+          "logprob": -1.4205775260925293,
+          "rank": 3,
+          "decoded_token": " perfect"
+        }
+      },
+      {
+        "264": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " a"
+        },
+        "6555": {
+          "logprob": -19.486034393310547,
+          "rank": 2,
+          "decoded_token": " nice"
+        },
+        "6617": {
+          "logprob": -20.55866050720215,
+          "rank": 3,
+          "decoded_token": " modern"
+        }
+      },
+      {
+        "6555": {
+          "logprob": -0.7924003005027771,
+          "rank": 2,
+          "decoded_token": " nice"
+        },
+        "8369": {
+          "logprob": -0.6136283278465271,
+          "rank": 1,
+          "decoded_token": " warm"
+        },
+        "17104": {
+          "logprob": -5.7979888916015625,
+          "rank": 3,
+          "decoded_token": " lovely"
+        }
+      },
+      {
+        "10799": {
+          "logprob": -1.2382705211639404,
+          "rank": 2,
+          "decoded_token": " decor"
+        },
+        "95673": {
+          "logprob": -0.34441831707954407,
+          "rank": 1,
+          "decoded_token": " ambiance"
+        },
+        "75211": {
+          "logprob": -7.316483497619629,
+          "rank": 3,
+          "decoded_token": " d\u00e9cor"
+        }
+      },
+      {
+        "430": {
+          "logprob": -1.1920928244535389e-07,
+          "rank": 1,
+          "decoded_token": " that"
+        },
+        "323": {
+          "logprob": -16.446929931640625,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "13": {
+          "logprob": -24.670391082763672,
+          "rank": 3,
+          "decoded_token": "."
+        }
+      },
+      {
+        "3779": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " added"
+        },
+        "743": {
+          "logprob": -17.340782165527344,
+          "rank": 2,
+          "decoded_token": " set"
+        },
+        "17249": {
+          "logprob": -17.519554138183594,
+          "rank": 3,
+          "decoded_token": "added"
+        }
+      },
+      {
+        "311": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " to"
+        },
+        "264": {
+          "logprob": -37.184356689453125,
+          "rank": 2,
+          "decoded_token": " a"
+        },
+        "998": {
+          "logprob": -41.11731719970703,
+          "rank": 3,
+          "decoded_token": "to"
+        }
+      },
+      {
+        "279": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "1057": {
+          "logprob": -33.60894012451172,
+          "rank": 2,
+          "decoded_token": " our"
+        },
+        "1820": {
+          "logprob": -37.363128662109375,
+          "rank": 3,
+          "decoded_token": "the"
+        }
+      },
+      {
+        "95673": {
+          "logprob": -0.011758778244256973,
+          "rank": 1,
+          "decoded_token": " ambiance"
+        },
+        "8244": {
+          "logprob": -4.48103141784668,
+          "rank": 2,
+          "decoded_token": " overall"
+        },
+        "8369": {
+          "logprob": -8.235223770141602,
+          "rank": 3,
+          "decoded_token": " warm"
+        }
+      },
+      {
+        "13": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "315": {
+          "logprob": -26.458099365234375,
+          "rank": 2,
+          "decoded_token": " of"
+        },
+        "11": {
+          "logprob": -38.07821273803711,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "6104": {
+          "logprob": -0.03991517424583435,
+          "rank": 1,
+          "decoded_token": " While"
+        },
+        "3861": {
+          "logprob": -3.436563491821289,
+          "rank": 2,
+          "decoded_token": " One"
+        },
+        "578": {
+          "logprob": -5.045499801635742,
+          "rank": 3,
+          "decoded_token": " The"
+        }
+      },
+      {
+        "433": {
+          "logprob": -0.0013615157222375274,
+          "rank": 1,
+          "decoded_token": " it"
+        },
+        "279": {
+          "logprob": -6.794658184051514,
+          "rank": 2,
+          "decoded_token": " the"
+        },
+        "539": {
+          "logprob": -8.403594970703125,
+          "rank": 3,
+          "decoded_token": " not"
+        }
+      },
+      {
+        "5828": {
+          "logprob": -3.135155202471651e-05,
+          "rank": 1,
+          "decoded_token": " wasn"
+        },
+        "3287": {
+          "logprob": -10.368744850158691,
+          "rank": 2,
+          "decoded_token": " didn"
+        },
+        "596": {
+          "logprob": -22.346399307250977,
+          "rank": 3,
+          "decoded_token": "'s"
+        }
+      },
+      {
+        "956": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "'t"
+        },
+        "1431": {
+          "logprob": -31.284915924072266,
+          "rank": 2,
+          "decoded_token": "\u2019t"
+        },
+        "17773": {
+          "logprob": -36.46927261352539,
+          "rank": 3,
+          "decoded_token": "'T"
+        }
+      },
+      {
+        "4832": {
+          "logprob": -0.34217533469200134,
+          "rank": 1,
+          "decoded_token": " perfect"
+        },
+        "279": {
+          "logprob": -1.7723435163497925,
+          "rank": 2,
+          "decoded_token": " the"
+        },
+        "39143": {
+          "logprob": -2.1298835277557373,
+          "rank": 3,
+          "decoded_token": " perfection"
+        }
+      },
+      {
+        "482": {
+          "logprob": -9.178694017464295e-05,
+          "rank": 1,
+          "decoded_token": " -"
+        },
+        "11": {
+          "logprob": -9.296180725097656,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "1389": {
+          "logprob": -25.20679473876953,
+          "rank": 3,
+          "decoded_token": " \u2013"
+        }
+      },
+      {
+        "279": {
+          "logprob": -0.18259306252002716,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "584": {
+          "logprob": -1.7915294170379639,
+          "rank": 2,
+          "decoded_token": " we"
+        },
+        "1070": {
+          "logprob": -8.763598442077637,
+          "rank": 3,
+          "decoded_token": " there"
+        }
+      },
+      {
+        "3868": {
+          "logprob": -1.0801823139190674,
+          "rank": 2,
+          "decoded_token": " wait"
+        },
+        "4731": {
+          "logprob": -0.722640335559845,
+          "rank": 1,
+          "decoded_token": " music"
+        },
+        "7729": {
+          "logprob": -1.7952663898468018,
+          "rank": 3,
+          "decoded_token": " prices"
+        }
+      },
+      {
+        "369": {
+          "logprob": -0.05588294938206673,
+          "rank": 1,
+          "decoded_token": " for"
+        },
+        "892": {
+          "logprob": -2.9162192344665527,
+          "rank": 2,
+          "decoded_token": " time"
+        },
+        "3115": {
+          "logprob": -8.458120346069336,
+          "rank": 3,
+          "decoded_token": " times"
+        }
+      },
+      {
+        "1057": {
+          "logprob": -0.530270516872406,
+          "rank": 1,
+          "decoded_token": " our"
+        },
+        "279": {
+          "logprob": -0.887814462184906,
+          "rank": 2,
+          "decoded_token": " the"
+        },
+        "3691": {
+          "logprob": -20.37384605407715,
+          "rank": 3,
+          "decoded_token": " food"
+        }
+      },
+      {
+        "3691": {
+          "logprob": -0.023182084783911705,
+          "rank": 1,
+          "decoded_token": " food"
+        },
+        "1817": {
+          "logprob": -3.7773706912994385,
+          "rank": 2,
+          "decoded_token": " check"
+        },
+        "12621": {
+          "logprob": -11.106979370117188,
+          "rank": 3,
+          "decoded_token": " checks"
+        }
+      },
+      {
+        "574": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " was"
+        },
+        "3952": {
+          "logprob": -24.491619110107422,
+          "rank": 2,
+          "decoded_token": " took"
+        },
+        "16514": {
+          "logprob": -25.385475158691406,
+          "rank": 3,
+          "decoded_token": "was"
+        }
+      },
+      {
+        "264": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " a"
+        },
+        "10284": {
+          "logprob": -16.80447006225586,
+          "rank": 2,
+          "decoded_token": " slightly"
+        },
+        "7344": {
+          "logprob": -33.072628021240234,
+          "rank": 3,
+          "decoded_token": " maybe"
+        }
+      },
+      {
+        "2766": {
+          "logprob": -0.0032721806783229113,
+          "rank": 1,
+          "decoded_token": " bit"
+        },
+        "64906": {
+          "logprob": -5.723944664001465,
+          "rank": 2,
+          "decoded_token": " tad"
+        },
+        "2697": {
+          "logprob": -19.310535430908203,
+          "rank": 3,
+          "decoded_token": " little"
+        }
+      },
+      {
+        "5129": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " longer"
+        },
+        "1317": {
+          "logprob": -17.698322296142578,
+          "rank": 2,
+          "decoded_token": " long"
+        },
+        "94426": {
+          "logprob": -21.810054779052734,
+          "rank": 3,
+          "decoded_token": " Longer"
+        }
+      },
+      {
+        "1109": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " than"
+        },
+        "54895": {
+          "logprob": -29.675975799560547,
+          "rank": 2,
+          "decoded_token": "than"
+        },
+        "34776": {
+          "logprob": -33.60893630981445,
+          "rank": 3,
+          "decoded_token": " Than"
+        }
+      },
+      {
+        "3685": {
+          "logprob": -1.1920928244535389e-07,
+          "rank": 1,
+          "decoded_token": " expected"
+        },
+        "584": {
+          "logprob": -15.73184585571289,
+          "rank": 2,
+          "decoded_token": " we"
+        },
+        "358": {
+          "logprob": -17.519554138183594,
+          "rank": 3,
+          "decoded_token": " I"
+        }
+      },
+      {
+        "482": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " -"
+        },
+        "323": {
+          "logprob": -29.675975799560547,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "11": {
+          "logprob": -31.46368408203125,
+          "rank": 3,
+          "decoded_token": ","
+        }
+      },
+      {
+        "279": {
+          "logprob": -0.00013124081306159496,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "433": {
+          "logprob": -8.938680648803711,
+          "rank": 2,
+          "decoded_token": " it"
+        },
+        "4395": {
+          "logprob": -21.98895835876465,
+          "rank": 3,
+          "decoded_token": " everything"
+        }
+      },
+      {
+        "4367": {
+          "logprob": -1.1920928244535389e-07,
+          "rank": 1,
+          "decoded_token": " quality"
+        },
+        "64756": {
+          "logprob": -16.446928024291992,
+          "rank": 2,
+          "decoded_token": " positives"
+        },
+        "842": {
+          "logprob": -17.340782165527344,
+          "rank": 3,
+          "decoded_token": " end"
+        }
+      },
+      {
+        "315": {
+          "logprob": -3.6954811548639555e-06,
+          "rank": 1,
+          "decoded_token": " of"
+        },
+        "323": {
+          "logprob": -12.513969421386719,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "1903": {
+          "logprob": -30.748605728149414,
+          "rank": 3,
+          "decoded_token": " made"
+        }
+      },
+      {
+        "279": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " the"
+        },
+        "4395": {
+          "logprob": -32.893856048583984,
+          "rank": 2,
+          "decoded_token": " everything"
+        },
+        "1820": {
+          "logprob": -38.07821273803711,
+          "rank": 3,
+          "decoded_token": "the"
+        }
+      },
+      {
+        "26863": {
+          "logprob": -1.2636104656849056e-05,
+          "rank": 1,
+          "decoded_token": " dishes"
+        },
+        "12269": {
+          "logprob": -11.620125770568848,
+          "rank": 2,
+          "decoded_token": " dish"
+        },
+        "15496": {
+          "logprob": -12.513978004455566,
+          "rank": 3,
+          "decoded_token": " meal"
+        }
+      },
+      {
+        "1903": {
+          "logprob": -4.7801782784517854e-05,
+          "rank": 1,
+          "decoded_token": " made"
+        },
+        "323": {
+          "logprob": -10.011220932006836,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "8659": {
+          "logprob": -12.871557235717773,
+          "rank": 3,
+          "decoded_token": " definitely"
+        }
+      },
+      {
+        "709": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " up"
+        },
+        "433": {
+          "logprob": -28.067039489746094,
+          "rank": 2,
+          "decoded_token": " it"
+        },
+        "5352": {
+          "logprob": -30.033519744873047,
+          "rank": 3,
+          "decoded_token": "-up"
+        }
+      },
+      {
+        "369": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " for"
+        },
+        "2066": {
+          "logprob": -38.078208923339844,
+          "rank": 2,
+          "decoded_token": "\tfor"
+        },
+        "2000": {
+          "logprob": -41.8323974609375,
+          "rank": 3,
+          "decoded_token": "for"
+        }
+      },
+      {
+        "433": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " it"
+        },
+        "279": {
+          "logprob": -26.81564712524414,
+          "rank": 2,
+          "decoded_token": " the"
+        },
+        "1102": {
+          "logprob": -35.75419235229492,
+          "rank": 3,
+          "decoded_token": " It"
+        }
+      },
+      {
+        "13": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "11": {
+          "logprob": -35.575416564941406,
+          "rank": 2,
+          "decoded_token": ","
+        },
+        "304": {
+          "logprob": -37.54189682006836,
+          "rank": 3,
+          "decoded_token": " in"
+        }
+      },
+      {
+        "358": {
+          "logprob": -0.00099323526956141,
+          "rank": 1,
+          "decoded_token": " I"
+        },
+        "60998": {
+          "logprob": -7.688144207000732,
+          "rank": 2,
+          "decoded_token": " Definitely"
+        },
+        "53300": {
+          "logprob": -7.866916179656982,
+          "rank": 3,
+          "decoded_token": " Highlights"
+        }
+      },
+      {
+        "1053": {
+          "logprob": -0.013607364147901535,
+          "rank": 1,
+          "decoded_token": " would"
+        },
+        "4265": {
+          "logprob": -4.304108142852783,
+          "rank": 2,
+          "decoded_token": "'d"
+        },
+        "1047": {
+          "logprob": -13.063884735107422,
+          "rank": 3,
+          "decoded_token": " had"
+        }
+      },
+      {
+        "8659": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " definitely"
+        },
+        "7701": {
+          "logprob": -17.519554138183594,
+          "rank": 2,
+          "decoded_token": " highly"
+        },
+        "7995": {
+          "logprob": -18.949722290039062,
+          "rank": 3,
+          "decoded_token": " certainly"
+        }
+      },
+      {
+        "7079": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " recommend"
+        },
+        "40912": {
+          "logprob": -18.949718475341797,
+          "rank": 2,
+          "decoded_token": " recommends"
+        },
+        "471": {
+          "logprob": -19.84357452392578,
+          "rank": 3,
+          "decoded_token": " return"
+        }
+      },
+      {
+        "420": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " this"
+        },
+        "7231": {
+          "logprob": -17.16201400756836,
+          "rank": 2,
+          "decoded_token": " giving"
+        },
+        "13598": {
+          "logprob": -22.525142669677734,
+          "rank": 3,
+          "decoded_token": " checking"
+        }
+      },
+      {
+        "2035": {
+          "logprob": -4.5060096454108134e-05,
+          "rank": 1,
+          "decoded_token": " place"
+        },
+        "10960": {
+          "logprob": -10.011218070983887,
+          "rank": 2,
+          "decoded_token": " restaurant"
+        },
+        "7858": {
+          "logprob": -15.374346733093262,
+          "rank": 3,
+          "decoded_token": " spot"
+        }
+      },
+      {
+        "311": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " to"
+        },
+        "369": {
+          "logprob": -23.240222930908203,
+          "rank": 2,
+          "decoded_token": " for"
+        },
+        "323": {
+          "logprob": -30.391063690185547,
+          "rank": 3,
+          "decoded_token": " and"
+        }
+      },
+      {
+        "5606": {
+          "logprob": -0.00555436173453927,
+          "rank": 1,
+          "decoded_token": " anyone"
+        },
+        "4885": {
+          "logprob": -5.726226806640625,
+          "rank": 2,
+          "decoded_token": " friends"
+        },
+        "3885": {
+          "logprob": -6.083766937255859,
+          "rank": 3,
+          "decoded_token": " others"
+        }
+      },
+      {
+        "3411": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " looking"
+        },
+        "20986": {
+          "logprob": -23.418991088867188,
+          "rank": 2,
+          "decoded_token": "looking"
+        },
+        "21815": {
+          "logprob": -23.597763061523438,
+          "rank": 3,
+          "decoded_token": " Looking"
+        }
+      },
+      {
+        "369": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " for"
+        },
+        "2066": {
+          "logprob": -35.21787643432617,
+          "rank": 2,
+          "decoded_token": "\tfor"
+        },
+        "2000": {
+          "logprob": -37.89944076538086,
+          "rank": 3,
+          "decoded_token": "for"
+        }
+      },
+      {
+        "264": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " a"
+        },
+        "1695": {
+          "logprob": -34.68156051635742,
+          "rank": 2,
+          "decoded_token": " good"
+        },
+        "362": {
+          "logprob": -37.54189682006836,
+          "rank": 3,
+          "decoded_token": " A"
+        }
+      },
+      {
+        "39953": {
+          "logprob": -0.017753148451447487,
+          "rank": 1,
+          "decoded_token": " tasty"
+        },
+        "6555": {
+          "logprob": -4.844569683074951,
+          "rank": 2,
+          "decoded_token": " nice"
+        },
+        "1695": {
+          "logprob": -5.202113628387451,
+          "rank": 3,
+          "decoded_token": " good"
+        }
+      },
+      {
+        "15496": {
+          "logprob": -1.0728830375228426e-06,
+          "rank": 1,
+          "decoded_token": " meal"
+        },
+        "323": {
+          "logprob": -13.765366554260254,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "57488": {
+          "logprob": -25.027936935424805,
+          "rank": 3,
+          "decoded_token": " Meal"
+        }
+      },
+      {
+        "304": {
+          "logprob": -6.031808152329177e-05,
+          "rank": 1,
+          "decoded_token": " in"
+        },
+        "323": {
+          "logprob": -10.01123332977295,
+          "rank": 2,
+          "decoded_token": " and"
+        },
+        "449": {
+          "logprob": -11.083857536315918,
+          "rank": 3,
+          "decoded_token": " with"
+        }
+      },
+      {
+        "264": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": " a"
+        },
+        "459": {
+          "logprob": -40.0446891784668,
+          "rank": 2,
+          "decoded_token": " an"
+        },
+        "279": {
+          "logprob": -43.79888153076172,
+          "rank": 3,
+          "decoded_token": " the"
+        }
+      },
+      {
+        "36387": {
+          "logprob": -1.4454795122146606,
+          "rank": 2,
+          "decoded_token": " welcoming"
+        },
+        "24729": {
+          "logprob": -0.3728553056716919,
+          "rank": 1,
+          "decoded_token": " pleasant"
+        },
+        "8369": {
+          "logprob": -2.69687557220459,
+          "rank": 3,
+          "decoded_token": " warm"
+        }
+      },
+      {
+        "4676": {
+          "logprob": -0.6931509971618652,
+          "rank": 2,
+          "decoded_token": " environment"
+        },
+        "6376": {
+          "logprob": -0.6931509971618652,
+          "rank": 1,
+          "decoded_token": " setting"
+        },
+        "16975": {
+          "logprob": -12.492033004760742,
+          "rank": 3,
+          "decoded_token": " atmosphere"
+        }
+      },
+      {
+        "13": {
+          "logprob": -0.00018773700867313892,
+          "rank": 1,
+          "decoded_token": "."
+        },
+        "0": {
+          "logprob": -8.581192970275879,
+          "rank": 2,
+          "decoded_token": "!"
+        },
+        "4005": {
+          "logprob": -15.732029914855957,
+          "rank": 3,
+          "decoded_token": ".</"
+        }
+      },
+      {
+        "694": {
+          "logprob": -3.576278118089249e-07,
+          "rank": 1,
+          "decoded_token": " </"
+        },
+        "578": {
+          "logprob": -14.837987899780273,
+          "rank": 2,
+          "decoded_token": " The"
+        },
+        "8217": {
+          "logprob": -20.558658599853516,
+          "rank": 3,
+          "decoded_token": " '</"
+        }
+      },
+      {
+        "19981": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": "review"
+        },
+        "11998": {
+          "logprob": -25.564247131347656,
+          "rank": 2,
+          "decoded_token": "report"
+        },
+        "46821": {
+          "logprob": -28.067039489746094,
+          "rank": 3,
+          "decoded_token": "-review"
+        }
+      },
+      {
+        "29": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ">"
+        },
+        "397": {
+          "logprob": -26.636873245239258,
+          "rank": 2,
+          "decoded_token": ">\n"
+        },
+        "1363": {
+          "logprob": -26.994415283203125,
+          "rank": 3,
+          "decoded_token": ">\n\n"
+        }
+      },
+      {
+        "128009": {
+          "logprob": 0.0,
+          "rank": 1,
+          "decoded_token": ""
+        },
+        "128008": {
+          "logprob": -20.55866050720215,
+          "rank": 2,
+          "decoded_token": "<|eom_id|>"
+        },
+        "31488": {
+          "logprob": -20.737430572509766,
+          "rank": 3,
+          "decoded_token": "EMPLARY"
+        }
+      }
+    ],
+    "cum_logprob": -14.467449063363354
+  }
+}
