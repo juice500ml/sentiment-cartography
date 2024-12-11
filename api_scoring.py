@@ -21,12 +21,13 @@ if __name__ == '__main__':
 
     if args.api_classification: 
         if args.dataset_path is None: 
-            dataset = load_dataset('Yelp/yelp_review_full')['train'].select(np.arange(5000))
-            dataset['split'] = 'train'
+            dataset = load_dataset('Yelp/yelp_review_full')['test']
+            split = 'test'
         else: 
-            dataset = load_dataset("csv", data_files = args.dataset_path)['train']
+            dataset = load_dataset("csv", data_files = args.dataset_path)['test']
+            
 
-        inputs, labels, splits = dataset['text'], dataset['label'], dataset['split']
+        inputs, labels, splits = dataset['text'], dataset['label'], split*len(dataset)
         scores, magnitudes = analyze_sentiment(inputs)
         dump_scores(inputs, scores, magnitudes, labels, splits = splits, identifier = args.identifier)
     
