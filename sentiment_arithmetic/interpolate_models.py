@@ -87,10 +87,15 @@ if __name__ == '__main__':
             local_batch = tokenizer(row, return_tensors = 'pt', truncation=True, padding='max_length', max_length = 256)# Has to be enough to include the prompt as well as the response. 
             with torch.no_grad():
                 intermediate_outputs = base.generate(input_ids = local_batch.input_ids.cuda(), attention_mask = local_batch.attention_mask.cuda(),  max_new_tokens = 32, pad_token_id = tokenizer.eos_token_id)
-                prediction = tokenizer.batch_decode(intermediate_outputs[:, local_batch.input_ids.shape[-1]:], skip_special_tokens=True)
-                print(prediction)
-    
+                predictions.append(tokenizer.batch_decode(intermediate_outputs[:, local_batch.input_ids.shape[-1]:], skip_special_tokens=True)[0].strip('\n'))
+                
         alpha_predictions[alpha] = predictions
-
         del base 
         
+    alpha_predictions['true'] = labels 
+    with open('./task_vector_alpha_variations.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        headers = list(alpha_predictions.keys())
+        writer.writerow(headers)
+        for row in zip(*alpha_predictions.values()):
+            writer.writerow(row)
