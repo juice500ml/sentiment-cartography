@@ -62,6 +62,24 @@ if __name__ == "__main__":
                                  return_tensors= 'pt')
 
         
+    model_card = "distilbert/distilgpt2"
+    model_ori = AutoModelForCausalLM.from_pretrained(model_card).to(device)
+    model_pos = AutoModelForCausalLM.from_pretrained(storage / "model_pos" / "checkpoint-4063").to(device)
+    model_neg = AutoModelForCausalLM.from_pretrained(storage / "model_neg" / "checkpoint-4063").to(device)
+
+    # Dataset prep
+    tokenizer = AutoTokenizer.from_pretrained(model_card)
+    if args.input_path is None: 
+        ds = load_dataset("Yelp/yelp_review_full")
+        def preproc(row):
+            return tokenizer(row["text"], max_length=512, truncation=True)
+    else: 
+        data_files = {}  
+        data_files['train'] = args.input_path
+        ds = load_dataset('json', data_files=data_files)
+        def preproc(row):
+            return tokenizer(row['input'], max_length=512, truncation=True)
+
     if args.splits is None: 
         ds_train = ds["train"].map(preproc, num_proc=4)
         ds_test = ds["test"].map(preproc, num_proc=4)
@@ -71,6 +89,9 @@ if __name__ == "__main__":
         if args.max_eval_samples is not None: 
             ds_test = ds_test.select(range(args.max_eval_samples))
         SPLITS = [("test", ds_test)]
+    elif args.splits == 'subsample': 
+        ds_train = ds["train"].map(preproc, num_proc=4)
+        SPLITS = [("train", ds_train)]
     tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 
@@ -88,10 +109,11 @@ if __name__ == "__main__":
                     "pos": model_pos(input_ids, labels=input_ids).loss.item(),
                     "neg": model_neg(input_ids, labels=input_ids).loss.item(),
                     "ori": model_ori(input_ids, labels=input_ids).loss.item(),
-                    "text": row["text"],
+                    "text": row["input"],
                     "label": row["label"],
+                    "api_score": row["score"],
+                    "api_magnitude": row["magnitude"],
                     "split": ds_name,
                 })
                 
     pd.DataFrame(rows).to_csv(f"{args.out_path}", index=False)
-

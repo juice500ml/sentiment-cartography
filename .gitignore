@@ -1,2 +1,10 @@
 envs/
 data
+
+logs.txt
+single_v2_dir_512_large/
+single_v2_dir_512_small/
+test_results.json
+v2_dir_512_large/
+v2_dir_512_small/
+wandb/run-20241119_115947-jyjlf7jo/

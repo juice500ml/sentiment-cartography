@@ -25,9 +25,8 @@ if __name__ == '__main__':
             split = 'test'
         else: 
             dataset = load_dataset("csv", data_files = args.dataset_path)['test']
-            
 
-        inputs, labels, splits = dataset['text'], dataset['label'], split*len(dataset)
+        inputs, labels, splits = dataset['text'], dataset['label'], dataset['split']
         scores, magnitudes = analyze_sentiment(inputs)
         dump_scores(inputs, scores, magnitudes, labels, splits = splits, identifier = args.identifier)
     
