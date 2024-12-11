@@ -14,6 +14,10 @@ from tqdm import tqdm
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_path', default = "data", type = str)
+    parser.add_argument('--model_type', default = 'distilgpt', type = str)
+    parser.add_argument('--model_pos', default=None, type = str)
+    parser.add_argument('--model_neg', default=None, type = str)
+    parser.add_argument('--max_eval_samples', default=1000, type = int)
     parser.add_argument('--out_path', default = "out.csv", type = str)
     parser.add_argument('--input_path', default = None, type = str, help = 'inputs that are to be represented in the polar form')
     parser.add_argument('--splits', default = None , type = str, help = 'splits to consider. Default is train and test. subsampled for specific visualization.')
@@ -22,6 +26,42 @@ if __name__ == "__main__":
     storage = Path(args.data_path)
     device = 0
 
+    if args.input_path is None: 
+        ds = load_dataset("Yelp/yelp_review_full")
+
+    if args.model_type == 'distilgpt':
+        model_card = "distilbert/distilgpt2"
+        model_ori = AutoModelForCausalLM.from_pretrained(model_card).to(device)
+        model_pos = AutoModelForCausalLM.from_pretrained(args.model_pos).to(device)
+        model_neg = AutoModelForCausalLM.from_pretrained(args.model_neg).to(device)
+        tokenizer = AutoTokenizer.from_pretrained(model_card)
+  
+        def preproc(row):
+            return tokenizer(row["text"], max_length=512, truncation=True)
+
+    elif args.model_type == 'llama':
+        model_ori = AutoModelForCausalLM.from_pretrained('/data/user_data/hdiddee/llama_models/llama_checkpoint/', 
+                                                          trust_remote_code=True,
+                                                          torch_dtype=torch.bfloat16,
+                                                          device_map='cuda')
+        model_pos = AutoModelForCausalLM.from_pretrained(args.model_pos, 
+                                                          trust_remote_code=True,
+                                                          torch_dtype=torch.bfloat16,
+                                                          device_map='cuda')
+        model_neg = AutoModelForCausalLM.from_pretrained(args.model_neg, 
+                                                          trust_remote_code=True,
+                                                          torch_dtype=torch.bfloat16,
+                                                          device_map='cuda')
+        tokenizer = AutoTokenizer.from_pretrained('/data/user_data/hdiddee/llama_models/llama_checkpoint/')
+        finetuning_prefix = """Given a sentence, assign an appropriate sentiment to it: """
+        finetuning_suffix = "### Sentiment Class:"
+        def preproc(row):
+                return tokenizer(f'{finetuning_prefix}: {row["text"]} {finetuning_suffix}', 
+                                 max_length=512, 
+                                 truncation=True, 
+                                 return_tensors= 'pt')
+
+        
     model_card = "distilbert/distilgpt2"
     model_ori = AutoModelForCausalLM.from_pretrained(model_card).to(device)
     model_pos = AutoModelForCausalLM.from_pretrained(storage / "model_pos" / "checkpoint-4063").to(device)
@@ -44,6 +84,11 @@ if __name__ == "__main__":
         ds_train = ds["train"].map(preproc, num_proc=4)
         ds_test = ds["test"].map(preproc, num_proc=4)
         SPLITS = (("train", ds_train), ("test", ds_test))
+    elif args.splits == 'test':
+        ds_test = ds["test"].map(preproc, num_proc=4)
+        if args.max_eval_samples is not None: 
+            ds_test = ds_test.select(range(args.max_eval_samples))
+        SPLITS = [("test", ds_test)]
     elif args.splits == 'subsample': 
         ds_train = ds["train"].map(preproc, num_proc=4)
         SPLITS = [("train", ds_train)]

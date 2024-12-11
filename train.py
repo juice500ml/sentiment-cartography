@@ -16,7 +16,7 @@ from tqdm import tqdm
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_path', default = "data", type = str)
-    parser.add_argument('--report_to', default = "tensorboard", type = str)
+    parser.add_argument('--report_to', default = "wandb", type = str)
     args = parser.parse_args()
 
     # Set up data storage path
