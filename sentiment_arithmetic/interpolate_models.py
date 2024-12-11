@@ -89,35 +89,8 @@ if __name__ == '__main__':
                 intermediate_outputs = base.generate(input_ids = local_batch.input_ids.cuda(), attention_mask = local_batch.attention_mask.cuda(),  max_new_tokens = 32, pad_token_id = tokenizer.eos_token_id)
                 prediction = tokenizer.batch_decode(intermediate_outputs[:, local_batch.input_ids.shape[-1]:], skip_special_tokens=True)
                 print(prediction)
-        #         parsed_sentiment = [int(val) if val in ['1', '2', '3', '4', '5'] else -1 for val in prediction[0]]
-        #         predictions.append(parsed_sentiment)
-        # print(predictions)
+    
         alpha_predictions[alpha] = predictions
 
         del base 
         
-    # alpha_predictions['true'] = labels 
-    # # Assume alpha_predictions is defined correctly up to this point
-    # with open('./task_vector_alpha_variations.csv', 'w', newline='') as csvfile:
-    #     writer = csv.writer(csvfile)
-        
-    #     # Write the header
-    #     headers = list(alpha_predictions.keys())
-    #     writer.writerow(headers)
-        
-    #     # Check if all lists in alpha_predictions are of the same length
-    #     expected_length = len(alpha_predictions[next(iter(alpha_predictions))])
-    #     for key, value in alpha_predictions.items():
-    #         if len(value) != expected_length:
-    #             raise ValueError(f"Length mismatch in {key}: expected {expected_length}, got {len(value)}")
-
-    #     # Write the data
-    #     # This ensures that each column under the header corresponds to the values from each list in alpha_predictions
-    #     for row in zip(*alpha_predictions.values()):
-    #         writer.writerow(row)
-
-    #     # with open('./task_vector_alpha_variations.csv', 'w', newline='') as csvfile:
-    #     #     writer = csv.writer(csvfile)
-    #     #     writer.writerow(alpha_predictions.keys())
-    #     #     for row in zip(*alpha_predictions.values()):
-    #     #         writer.writerow(row)
