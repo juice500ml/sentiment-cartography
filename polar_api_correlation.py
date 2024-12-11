@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 import numpy as np
+import scipy.stats
 from datasets import load_dataset 
 import argparse
 
@@ -41,4 +42,13 @@ if __name__ == '__main__':
     labels =  ds['label']
     df['yelp_labels'] = labels[:min(len(labels), len(df))]
     print(df)
-    breakpoint()
+
+    print(df.isnull().sum()) 
+    df.replace([np.inf, -np.inf], np.nan, inplace=True) 
+    df = df.dropna(subset=['theta', 'radii'])
+    correlation, p_value = scipy.stats.spearmanr(df['theta'], df['api_scores'])
+    print(f'Correlation between API Scores and Theta: {(correlation, p_value)}')
+    correlation, p_value = scipy.stats.spearmanr(df['theta'], df['yelp_labels'])
+    print(f'Correlation between API Scores and Yelp Labels: {(correlation, p_value)}')
+    correlation, p_value = scipy.stats.spearmanr(df['radii'], df['api_magnitudes'])
+    print(f'Correlation between Magnitude (API) and Radii: {(correlation, p_value)}')
